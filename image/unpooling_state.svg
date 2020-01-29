@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="726.19788"
+   height="443.18933"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.47 r22583"
+   sodipodi:docname="unpooling_state.pdf">
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend"
+       style="overflow:visible">
+      <path
+         id="path3672"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="98.890012"
+     inkscape:cy="324.14666"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1003"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2816"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="レイヤー 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(66.5,-110.76752)">
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:3.42326593;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2822"
+       width="180"
+       height="100"
+       x="80"
+       y="132.36218"
+       ry="50" />
+    <text
+       xml:space="preserve"
+       style="font-size:32.13341904px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="110"
+       y="192.36218"
+       id="text3596"><tspan
+         sodipodi:role="line"
+         id="tspan3598"
+         x="110"
+         y="192.36218">左上出力</tspan></text>
+    <rect
+       ry="50"
+       y="132.36218"
+       x="340"
+       height="100"
+       width="180"
+       id="rect3600"
+       style="fill:none;stroke:#000000;stroke-width:3.42326593;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <text
+       id="text3602"
+       y="192.36218"
+       x="370"
+       style="font-size:32.13341904px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       xml:space="preserve"><tspan
+         y="192.36218"
+         x="370"
+         id="tspan3604"
+         sodipodi:role="line">右上出力</tspan></text>
+    <rect
+       ry="50"
+       y="282.36218"
+       x="80"
+       height="100"
+       width="180"
+       id="rect3630"
+       style="fill:none;stroke:#000000;stroke-width:3.42326593;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <text
+       id="text3632"
+       y="342.36218"
+       x="90"
+       style="font-size:29.47036552px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       xml:space="preserve"><tspan
+         y="342.36218"
+         x="90"
+         sodipodi:role="line"
+         id="tspan3654">enable待機</tspan></text>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:3.42326593;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect3636"
+       width="180"
+       height="100"
+       x="340"
+       y="282.36218"
+       ry="50" />
+    <text
+       xml:space="preserve"
+       style="font-size:32.13341904px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="370"
+       y="342.36218"
+       id="text3638"><tspan
+         sodipodi:role="line"
+         id="tspan3640"
+         x="370"
+         y="342.36218" /></text>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:3.42326593;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect3642"
+       width="180"
+       height="100"
+       x="80"
+       y="432.36218"
+       ry="50" />
+    <text
+       xml:space="preserve"
+       style="font-size:32.13341904px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="368.5"
+       y="493.95685"
+       id="text3644"><tspan
+         sodipodi:role="line"
+         id="tspan3646"
+         x="368.5"
+         y="493.95685">左下出力</tspan></text>
+    <rect
+       ry="50"
+       y="432.36218"
+       x="340"
+       height="100"
+       width="180"
+       id="rect3648"
+       style="fill:none;stroke:#000000;stroke-width:3.42326593;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <text
+       id="text3650"
+       y="493.95685"
+       x="108.5"
+       style="font-size:32.13341904px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       xml:space="preserve"><tspan
+         y="493.95685"
+         x="108.5"
+         id="tspan3652"
+         sodipodi:role="line">右下出力</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:29.47036552px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="360"
+       y="342.36218"
+       id="text3658"><tspan
+         id="tspan3660"
+         sodipodi:role="line"
+         x="360"
+         y="342.36218">行判定待機</tspan></text>
+    <path
+       sodipodi:type="arc"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path3662"
+       sodipodi:cx="-55"
+       sodipodi:cy="182.36218"
+       sodipodi:rx="10"
+       sodipodi:ry="10"
+       d="m -45,182.36218 c 0,5.52285 -4.477153,10 -10,10 -5.522847,0 -10,-4.47715 -10,-10 0,-5.52284 4.477153,-10 10,-10 5.515436,0 9.989513,4.4656 9.999982,9.98102"
+       sodipodi:start="0"
+       sodipodi:end="6.2812872"
+       sodipodi:open="true"
+       transform="translate(0,150)" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m -45,332.36218 120,0"
+       id="path3664" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 170,282.36218 0,-50"
+       id="path4114" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 430,232.36218 0,50"
+       id="path4300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 430,382.36218 0,50"
+       id="path4486" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="M 169.28571,429.50504 170,382.36218"
+       id="path4672" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.94868332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 260,162.36218 c 34.68695,-34.45285 57.09382,-15.19695 80,0"
+       id="path4858"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 340,202.36218 c -23.63215,27.64778 -50.30693,27.57387 -80,0"
+       id="path5228"
+       sodipodi:nodetypes="cc" />
+    <path
+       sodipodi:nodetypes="cc"
+       id="path5414"
+       d="m 260,462.36218 c 32.54426,-33.58625 56.73996,-19.46644 80,0"
+       style="fill:none;stroke:#000000;stroke-width:0.94868332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)" />
+    <path
+       id="path5416"
+       d="m 340,502.36218 c -26.66667,26.52427 -53.33333,25.32452 -80,0"
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       sodipodi:nodetypes="cc" />
+    <path
+       sodipodi:nodetypes="cc"
+       id="path5606"
+       d="m 80,162.36218 c -59.084754,-17.3494 -18.992873,-84.933239 30,-30"
+       style="fill:none;stroke:#000000;stroke-width:0.94868332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.94868332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 520,502.36218 c 59.08474,17.3494 18.99287,84.93324 -30,30"
+       id="path5608"
+       sodipodi:nodetypes="cc" />
+    <path
+       sodipodi:nodetypes="cc"
+       id="path5610"
+       d="m 80,502.36218 c -59.08474,17.3494 -18.99287,84.93324 30,30"
+       style="fill:none;stroke:#000000;stroke-width:0.94868332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.94868332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 520,162.36218 c 59.08475,-17.3494 18.99287,-84.933233 -30,-30"
+       id="path5612"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 260,347.36218 c 39.28257,43.64294 57,-62 2,-27"
+       id="path5616"
+       sodipodi:nodetypes="cc" />
+    <path
+       sodipodi:nodetypes="cc"
+       id="path5802"
+       d="m 520,347.36218 c 39.28257,43.64294 57,-62 2,-27"
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="M 580.83771,91.656245 C 685.16404,183.10828 685.19739,266.97538 580,343.18933"
+       id="path2968"
+       transform="translate(-66.5,110.76752)"
+       sodipodi:nodetypes="cc" />
+    <path
+       sodipodi:nodetypes="cc"
+       id="path3932"
+       d="M 82.66229,455.48994 C -21.664041,364.0379 -21.697391,280.1708 83.5,203.95685"
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)" />
+    <text
+       id="text3205"
+       y="243.95685"
+       x="258.5"
+       style="font-size:12.16888237px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       xml:space="preserve"><tspan
+         y="243.95685"
+         x="258.5"
+         id="tspan3207"
+         sodipodi:role="line">バッファ分待機</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12.16888237px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="258.5"
+       y="133.95685"
+       id="text3217"><tspan
+         sodipodi:role="line"
+         id="tspan3219"
+         x="258.5"
+         y="133.95685">バッファ分待機</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12.16888237px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="258.5"
+       y="433.95685"
+       id="text3221"><tspan
+         sodipodi:role="line"
+         id="tspan3223"
+         x="258.5"
+         y="433.95685">バッファ分待機</tspan></text>
+    <text
+       id="text3225"
+       y="538.95685"
+       x="258.5"
+       style="font-size:12.16888237px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       xml:space="preserve"><tspan
+         y="538.95685"
+         x="258.5"
+         id="tspan3227"
+         sodipodi:role="line">バッファ分待機</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:17.06059074px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="583.5"
+       y="283.95685"
+       id="text3229"><tspan
+         sodipodi:role="line"
+         id="tspan3231"
+         x="583.5"
+         y="283.95685">LEVEL=0</tspan></text>
+    <text
+       id="text3233"
+       y="283.95685"
+       x="-66.5"
+       style="font-size:17.06059074px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       xml:space="preserve"><tspan
+         y="283.95685"
+         x="-66.5"
+         id="tspan3235"
+         sodipodi:role="line">LEVEL=0</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:15.80015564px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="443.5"
+       y="263.95685"
+       id="text3237"><tspan
+         sodipodi:role="line"
+         id="tspan3239"
+         x="443.5"
+         y="263.95685">1行終了</tspan></text>
+    <text
+       id="text3241"
+       y="413.95685"
+       x="443.5"
+       style="font-size:15.80015564px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       xml:space="preserve"><tspan
+         y="413.95685"
+         x="443.5"
+         id="tspan3243"
+         sodipodi:role="line">出力行到達</tspan></text>
+    <text
+       id="text3245"
+       y="413.95685"
+       x="103.5"
+       style="font-size:15.80015564px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       xml:space="preserve"><tspan
+         y="413.95685"
+         x="103.5"
+         id="tspan3247"
+         sodipodi:role="line">1行終了</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:15.80015564px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="53.5"
+       y="263.95685"
+       id="text3249"><tspan
+         sodipodi:role="line"
+         id="tspan3251"
+         x="53.5"
+         y="263.95685">イネーブル信号</tspan></text>
+  </g>
+</svg>

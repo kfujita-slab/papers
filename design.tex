@@ -1,0 +1,542 @@
+\chapter{設計と実装}
+本章では、当プロジェクトにおいてソフトウェア実装されているシステムの
+ネットワーク構造について説明し、
+そのハードウェア実装に際しての設計・実装方法について述べる。
+\section{アルゴリズム}
+\label{sec:algorithm}
+本システムは、入力された手術画像に対して、ニューラルネットワーク
+を用いたセグメンテーションを行い、ラベル画像を出力する。
+入力はサイズ$672\times528$のRGB画像であり、出力として4種類の
+クラスラベルを返す。クラスは、背景・胆嚢・胆嚢管・総胆管とする。
+%これを基に、設計したシステムの構成図は、図\ref{segment_design}のようになる。
+%\begin{figure}[hbt]
+%    \centering
+%    \includegraphics[scale=1.0,clip]{image/segment_design.pdf}
+%    \caption{システムの構成}
+%    \label{fig:segment_design}
+%\end{figure}
+%以下にネットワークの説明とともに各操作の概要を述べる。
+\subsection{ネットワーク構成}
+\label{sec:net_design}
+本プロジェクトで実装されているネットワークの全体図を図\ref{fig:segment_soft}に示す。
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.94\textwidth,clip]{image/segment_soft.pdf}
+    \caption{ネットワーク全体図}
+    \label{fig:segment_soft}
+\end{figure}
+
+図\ref{fig:segment_soft}に則して説明を行う。まず入力画像はExtという小規模ネットワークに
+与えられ、特徴マップが生成される。Extは入力がRGBの3チャネル、出力が$n$チャネルと
+なっており、$n$はパラメータで任意に設定できる。続いて、特徴マップは$2\times2$ max poolingで縮小された後、Rdcという小規模ネットワークに渡される。Rdcは入出力ともに$n$チャネル
+である。poolingによる縮小とRdcネットワークの適用を再帰的に繰り返すことで、
+低次元への特徴マップの集約を行い、位置不変性の獲得を狙う。
+最下層に到達した後、unpoolingによる拡張が
+行われ、縮小処理を経ていない特徴マップと共にItgという小規模ネットワークに渡される。
+よってItgの入力は$2n$チャネル、出力は$n$チャネルである。
+unpoolingによる拡張と前段の特徴マップの統合によって、
+プーリング層で失われた位置情報の復元を狙う。
+この拡張とItgによる統合は、縮小とRdcの適用と同回数行われる。
+最後に、元画像と同じ大きさとなった特徴マップに$1\times1$畳み込み演算を行い、
+指定の4クラスに対する尤度マップを生成する。
+
+以下の項目では、ここに挙げた各処理についてそれぞれの詳細を述べる。
+
+\subsection{畳み込み層}
+\label{sec:conv}
+本ネットワークの畳み込み層は3つの小規模ネットワークから構成されている。
+図\ref{fig:three_Net}にそれぞれの形状を示す。
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=8cm,clip]{image/three_Net.pdf}
+    \caption{3種の小規模ネットワーク}
+    \label{fig:three_Net}
+\end{figure}
+
+フィルタサイズはいずれも$3\times3$であり、入力と出力のサイズを同じにするため
+各層でパディングが行われている。
+活性化関数は、式\ref{LeakyReLU}に示すLeaky ReLU\cite{Leaky_ReLU}を用いる。
+Leaky ReLUを用いる理由だが、式\ref{ReLU}に示したReLUは
+いかなる負の入力に対しても0を出力するため、学習が進むにつれて
+絶対値の大きい負数が出力することがある。
+本研究ではハードウェア化にあたり固定小数点演算を採用していることから、
+この現象は演算に必要なビット幅の増大や演算精度の低下につながる。
+一方Leaky ReLUは、負領域においても0でない重みaを持つため、この問題を緩和できる。
+aの値については、$0.25=2^{-2}$でありビットシフト演算による
+簡単な実装が可能であることから値を決定した。
+\begin{equation}
+    \label{LeakyReLU}
+    f(x) = \max(ax,x) ,\ a = 0.25 \quad (\mathrm{Leaky\ ReLU})
+\end{equation}
+
+本ネットワークとU-Netの差異として、
+小規模ネットワークの再帰的な適用が挙げられる。
+医用画像はデータセットが乏しいため、
+訓練データを丸暗記してしまう過学習を引き起こす可能性が高い。
+そこで、小規模ネットワークの組み合わせによってネットワークを構築することで、
+記憶できるパラメータ数を意図的に減らし過学習を抑制する。
+加えて、異なる解像度のデータに対するネットワークの再帰的な適用により、
+サイズに左右されない、より普遍的な特徴抽出が期待できる点も、過学習抑制に繋がる。
+
+また、各層でパディングが行われるのもU-Netとの差異として挙げられる。
+これは、入力と出力のサイズを変化させない方が、設計上好ましいだろうという判断に
+基づいている。特に、図\ref{fig:padding}に示すようにpooling・unpoolingにおける動作が
+複雑化することが予測できる。
+各層でのパディングにより、
+小規模ネットワーク適用後、
+poolingでは入力を半分に縮小し、unpoolingでは入力を2倍に拡張する
+という単純な動作となるため、設計を単純化できるという利点がある。
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=\textwidth,clip]{image/padding.pdf}
+    \caption{パディングの有無によるサイズ変化の違い}
+    \label{fig:padding}
+\end{figure}
+
+\subsection{プーリング層}
+\label{sec:pooling}
+本システムでのプーリング層では、一般的なCNNと同様に
+$2\times2$ max poolingを適用する。
+入力は$2\times2$の領域に区切られ、各領域内の最大値1画素が出力される。
+よって、プーリング層の出力は前段からの入力に対し、縦横ともに半分のサイズとなる。
+図\ref{fig:pooling}にその様子を示す。\ref{sec:conv}節で述べたように、プーリング層の前後で実行される
+畳み込み層においてサイズは変化しないため、プーリング層のみで単純なサイズ
+変更が行われていることが確認できる。
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=\textwidth,clip]{image/pooling.pdf}
+    \caption{プーリング層の適用による縮小}
+    \label{fig:pooling}
+\end{figure}
+\subsection{アンプーリング層}
+\label{sec:unpooling}
+本システムのアンプーリング層で行われている処理は
+図\ref{fig:unpooling}とは異なり、
+値を周辺画素に拡張させる処理となっている。
+位置情報を記憶する必要はなく、プーリング層を経ていない特徴マップとサイズを一致させるには、
+\ref{sec:conv}節で述べたように
+縦横のサイズを2倍すればよい。
+また、\ref{sec:net_design}節で述べたように、アンプーリング層の適用はプーリング層の適用と
+同回数行われ、最終的な出力のサイズは最初の入力と一致する。
+アンプーリング層の動作を図\ref{fig:unpooling_design}に示す。
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=\textwidth,clip]{image/unpooling_design.pdf}
+    \caption{アンプーリング層の適用による拡大}
+    \label{fig:unpooling_design}
+\end{figure}
+\section{設計と実装}
+\ref{sec:algorithm}節で説明したシステムのハードウェア化にあたり、
+外部からの入力画像は、順次走査により座標(h\_cnt,v\_cnt)と共に画素値(in\_pixel)が与えられることを想定する。
+それに伴い、出力は座標と共に4種類のクラスラベルが1画素ずつ返される。
+
+FPGAへの実装は、Verilog HDLを用いたRTL記述にて行った。
+論理合成・配置配線にはVivado 2018.3を用い、ターゲットFPGAは
+Virtex UltraScale xcvu095-ffva2104-2-e-es2とした。
+\subsection{システム構成}
+図\ref{fig:segment_soft}のネットワーク構成を基に、
+図\ref{fig:segment_design}のような設計を行った。
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=\textwidth,clip]{image/segment_design.pdf}
+    \caption{システム構成概略図}
+    \label{fig:segment_design}
+\end{figure}
+
+システム全体は、順次走査により与えられる画像情報に対して、完全ストリーム処理を行うことができる設計となっている。畳み込み等のフィルタ演算は適切なバッファリングにより、
+フィルタと対応する画素の周囲画像(パッチ)に切り出され、ツリー構造の演算器で
+処理される。pooling・unpoolingにより画像サイズが変化しても、
+イネーブル制御によってストリーム処理を維持する。
+以下の項目では、ここに挙げた各処理を行うモジュールの詳細を述べる。
+\subsection{stream\_patchモジュール}
+\label{sec:patch}
+フィルタ演算が行われる各モジュール内では、当研究室内で利用されているパッチ切り出しの
+テンプレートモジュール(stream\_patch)が用いられている。
+有効画素の入力ごとに、フィルタに対応した大きさのパッチが切り出される様子を
+図\ref{fig:stream_patch}に示す。
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.6\textwidth,clip]{image/patch.pdf}
+    \caption{パッチ切り出し}
+    \label{fig:stream_patch}
+\end{figure}
+これにより、有効画素が入力されるクロックごとのフィルタ演算が可能となる。
+
+詳細は\ref{sec:pooling_design}・\ref{sec:unpooling_design}節
+にて述べるが、本システムではpooling・unpoolingによって有効画素のタイミングが変化する。
+そこで、stream\_patchにイネーブル信号を追加し、有効画素が入らないクロック
+ではモジュールを停止させることで、全体のストリーム処理を維持する設計とした。
+ストリームパッチモジュール内で用いられているバッファ用のメモリは、
+Vivadoに組み込まれたIPカタログにより生成されたシンプルデュアルポートメモリである。
+このメモリは書き込みイネーブルを入力に持つため、
+0を入力することで図\ref{fig:stream_patch}に示したFIFOを停止させることができる。
+
+stream\_patchの変更により、フィルタ演算を行うモジュールは適切なイネーブル信号を
+前段から受けとることで、サイズの変更による有効画素タイミングの変化に対応できるようになった。その他の停止操作や、各モジュールのイネーブル信号の出力方法については
+、以下の項目内にて詳細を述べる。
+
+\subsection{ExtNet・RdcNet・ItgNetモジュール}
+\ref{sec:conv}節で説明した通り、
+本システムの畳み込み層は3種類の小規模ネットワークから構成されるため、
+それぞれ3種類のモジュールとして実装を行うが、
+3種類のネットワークには積和演算や活性化関数の適用など共通する部分も多い。
+そこで、図\ref{fig:neuron_image}に表したような、各ニューロンの計算を行う部分を
+層(layer)としてとらえ、共通モジュールとして実装することで設計の単純化を狙う。
+図\ref{fig:layer_image}にlayerモジュールによるネットワーク作成のイメージ図を示す。
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.6\textwidth,clip]{image/layer_image.pdf}
+    \caption{layerモジュールによるネットワーク作成イメージ}
+    \label{fig:layer_image}
+\end{figure}
+layerモジュールはパラメータによって適用するニューロンの数を変更することができ、
+layerを重ねることで、多段ネットワークを実装する。
+よって、ネットワーク全体の入出力、layerモジュールを呼び出す段数、各layerモジュールの
+パラメータの変更を行うことで、今回必要とするネットワークモジュールが実装可能となる。
+
+layerモジュールについて説明する。layerモジュールは$n$チャネルの画素を1画素ずつ受け取り、
+stream\_patchモジュールによってパッチに切り出した後、
+畳み込み演算、バイアス加算、活性化関数の適用を行う。
+畳み込みにおける加算器ツリーを図\ref{fig:add_tree}に表す。
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.5\textwidth,clip]{image/add_tree.pdf}
+    \caption{加算器ツリーによる畳み込み演算}
+    \label{fig:add_tree}
+\end{figure}
+
+\ref{sec:patch}節で述べたように、各Netモジュールは前段からのイネーブル信号を
+stream\_patchモジュールに渡すことで、モジュールを停止させることができる。
+また、受け取ったイネーブル信号を自身のレイテンシ分遅延させて出力することで、
+後段のモジュールに対するイネーブル信号とする。
+画素の座標値(h\_cnt,v\_cnt)に関しても、
+イネーブル信号と同様の遅延が行われて出力される。
+%また、入力としてイネーブル信号を受け取り、
+%ストリームパッチモジュールに渡すことで動作制御する。また、自身の
+%レイテンシ分遅延させて出力することで、後段のlayerまたは次のモジュールのイネーブル信号とする。
+%画素の水平座標(以下h\_cnt)と垂直座標(以下v\_cnt)に関しても、
+%layerモジュールが受け取り、
+%適切な遅延が行われて出力される。
+%DSP推論、溢れ分をロジックで実装する話を書く予定です。
+%それよりも、積和演算方法についてかいたほうがいいんでない
+\clearpage
+\subsection{poolingモジュール}
+\label{sec:pooling_design}
+poolingモジュールも各Netモジュールと同じく、stream\_patchモジュールを用いて
+対象画素の入力ごとに動作することができる。
+ここでいう対象画素とは、今回$2\times2$ max poolingを適用するため、
+画像全体を$2\times2$の領域で区切った際の右下画素のことをいう。
+右下画素が入ったクロックでpoolingを行い、イネーブル信号と合わせて出力を行う。
+切り出されたパッチ内の最大値を求めるツリーを図\ref{fig:pooling_tree}に示す。
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.5\textwidth,clip]{image/pooling_tree.pdf}
+    \caption{ツリーによるpooling}
+    \label{fig:pooling_tree}
+\end{figure}
+
+\noindent 右下画素であることは、座標値の下位1ビットを用いた以下の条件文で判定できる。
+\begin{itemize}
+\item\ if\ (\ h\_cnt[0] == 1 \&\& v\_cnt[0] == 1\ )
+\end{itemize}
+
+また、座標値(h\_cnt,v\_cnt)の出力はサイズの変化に合わせて適切に変更される必要がある。
+\ref{sec:pooling}節で述べた通り、各poolingモジュールの出力サイズは入力に
+対して縦横それぞれ半分となるので、下位1ビットを切り捨てればよい。
+この画像サイズ縮小に伴い、後段のモジュールにおける
+有効画素が入るタイミングが変化する。図\ref{fig:pooling_clock}にその様子を示す。
+左図は毎クロック有効画素を出力しているのに対し、poolingモジュールの
+適用ごとに有効画素を出力するクロックが減少していることがわかる。
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.8\textwidth,clip]{image/pooling_clock.pdf}
+    \caption{有効画素が出力されるクロック数の変化}
+    \label{fig:pooling_clock}
+\end{figure}
+%ただし、畳み込み処理とは違い、フィルタサイズ2$\times$2に対してストライド2であるため、
+%出力は毎クロック有効でなく、2$\times$2で区切られた領域の右下画素入力に合わせて
+%有効となる。
+%そこで、本モジュールでは出力時の座標を利用し、有効出力を表すイネーブル信号を出力する。
+%また、pooling処理自身も前段のpooling処理の影響から動作回数が変化するため、
+%イネーブル信号を受け取り、ストリームパッチを停止させる。
+%このような実装とすることで、モジュールの変更を行うことなく、
+%再帰的なプーリング層の適用を実現した。
+%
+%画像サイズを縮小させる性質から、h\_cntとv\_cntはともに適切な変更が
+%行われる必要がある。各段でそれぞれ大きさが半分になるので、
+%出力有効画素における座標値の下位1ビットを切り捨てる実装とした。
+
+%最大値プーリングの計算方法を図\ref{fig:pooling_method}に示す。
+
+\subsection{unpoolingモジュール}
+\label{sec:unpooling_design}
+\ref{sec:unpooling}節で述べたように、
+本システムにおける
+unpooling動作は単純な画素拡張操作であるため、
+入力画素のバッファリングによって実装する。
+前段からの有効画素に対して、図\ref{fig:unpooling_design}のように
+右上、左下、右下に拡張するにあたり、バッファの大きさを適切に決定する必要があるが、
+図\ref{fig:unpooling_clock}に示すように、unpoolingの適用回数による
+有効出力タイミングの変化は規則的であるため、適用回数を基としたパラメータによって
+バッファの大きさを決定することとした。
+このパラメータをLEVELとし、元々の入力画像と同じサイズに変化する際、
+つまり毎クロック有効画素を出力する
+unpoolingのLEVELを0、以降を1...2...と設定する。
+LEVELに基づいて決定されるバッファの大きさを以下に示す。これにより、
+unpoolingモジュールはパラメータとしてLEVELを設定するだけで
+再帰的な利用が可能な設計となった。
+\begin{itemize}
+\item 右上 : UppR\_BUF = $2^{\mathrm{LEVEL}}$
+\item 左下 : LowL\_BUF = $2^{\mathrm{LEVEL}} \times$WIDTH(入力画像横幅)
+\item 右下 : LowR\_BUF = UppR\_BUF + LowL\_BUF
+\end{itemize}
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.8\textwidth,clip]{image/unpooling_clock.pdf}
+    \caption{有効画素の出力タイミングとバッファサイズの変化}
+    \label{fig:unpooling_clock}
+\end{figure}
+
+画素の出力順は4方向の循環ではなく、行ごとに動作が
+有効画素が入力される行では左上・右上画素が、
+$2^\mathrm{LEVEL}\times$WIDTH後の行では左下・右下画素が出力される。
+そこで、前段からのイネーブル信号、バッファ分のカウント、行判定によって
+遷移するステートマシンとしての設計を行った。図\ref{fig:unpooling_state}に
+状態遷移図を示す。
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.7\textwidth,clip]{image/unpooling_state.pdf}
+    \caption{状態遷移図}
+    \label{fig:unpooling_state}
+\end{figure}
+
+イネーブル信号で遷移する待機状態を初期状態とする。
+外部からのイネーブル信号によって左上に遷移。
+バッファ用のメモリに画素値を渡し、左上の出力を行う。
+その後、カウンタによってLEVELに基づくバッファ分待機し、右上に遷移する。
+右上はメモリから画素値を受けとり出力。同じくカウンタによってバッファ分待機し、
+左上に再び遷移する。これを1行分繰り返す。なお、行の終了も出力間の
+待機と同じようにカウンタを用いて判定している。
+1行終了後、出力行判定で遷移する待機状態へと遷移する。
+ここで用いる出力行判定とは、
+左下・右下画素の出力を開始する行を判定することを指し、
+判定にはLEVELを用いた。左上・右上画素の出力行を0行目とした場合、
+左下・右下画素の出力行は$2^\mathrm{LEVEL}$行目となる。そこで、
+1行終了が判定された回数を用いて、出力行判定を行った。
+その後、左下・右下も左上・右上と同様に、
+遷移を繰り返しながら1行分の出力を行い、
+1行終了後イネーブル信号によって遷移する待機状態に戻る。
+図\ref{fig:unpooling_state_image}にLEVELごとの状態遷移イメージを示す。
+外部からの入力のタイミングでin\_vcnt[0]が変化しているが、
+これを利用してカウントを同期させている。
+%バッファリングされる行数は2のべき乗であることから、
+%v\_cnt[LEVEL]の値が変化した瞬間が出力される行の開始点である。
+%図\ref{fig:unpooling_state_image}にLEVELごとの状態遷移イメージをv\_cntの値と
+%ともに示す。v\_cnt[LEVEL]の値が変化した際に出力が開始されているのが確認できる。
+%左下・右下も同様に、遷移を繰り返しながら1行分の出力を行う。
+%その後、イネーブル信号によって遷移する待機状態に戻る。
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.9\textwidth,clip]{image/unpooling_state_image.pdf}
+    \caption{LEVELごとの状態遷移イメージ}
+    \label{fig:unpooling_state_image}
+\end{figure}
+
+また、poolingモジュールと同様に、座標値(h\_cnt,v\_cnt)の出力は
+サイズの変化に合わせて適切に変更される必要がある。
+\ref{sec:unpooling}節で述べた通り、各unpoolingモジュールのサイズは
+入力に対してそれぞれ2倍となるので、適切な値による下位1ビットの拡張を行えばよい。
+図\ref{fig:unpooling_state_image}、
+表\ref{tab:unpooling_bit}に拡張方向に基づく座標値の変更方法を示す。
+\begin{table}[hbt]
+    \caption{拡張方向に基づく座標値の変更}
+    \centering
+    \begin{tabular}{|l||c|c|}
+        \hline
+        &左：h\_cntは元画素と同じ&右：h\_cntは元画素+1\\
+        \hline\hline
+        \multirow{2}{*}{上：v\_cntは元画素と同じ}& h\_cnt 0ビット拡張 &h\_cnt 1ビット拡張\\
+                                & v\_cnt 0ビット拡張 &v\_cnt 0ビット拡張\\\hline
+        \multirow{2}{*}{下：v\_cntは元画素+1} & h\_cnt 0ビット拡張 & h\_cnt 1ビット拡張 \\
+                                & v\_cnt 1ビット拡張 &v\_cnt 1ビット拡張\\\hline
+    \end{tabular}
+    \label{tab:unpooling_bit}
+\end{table}
+%
+%バッファリングの大きさは自身の動作回数によって決定される。
+%図\ref{fig:unpooling_level}のように、動作回数が多いほどバッファリングは小さく、
+%動作回数が少ないほどバッファリングは大きくなる。
+%そこで、この動作回数の変化をレベルと呼ぶパラメータで表し、それを基にバッファリングの
+%大きさを決定した、具体的な値は以下の通りである。
+%
+%\begin{itemize}
+%\item 右上 : UppR\_BUF = 1 $<<$ LEVEL
+%\item 左下 : LowL\_BUF = (1 $<<$ LEVEL) * WIDTH(画像横幅)
+%\item 右下 : LowR\_BUF = UppR\_BUF + LowL\_BUF
+%\end{itemize}
+%
+%また、図\ref{fig:unpooling_level}におけるバッファリングの表現は、
+%あくまで1クロックに1画素の出力を行うレベル0における動作を基準にしており、
+%各段におけるunpoolingの動作は前段からの入力を水平・垂直方向
+%に2倍する動作であることに留意しておきたい。
+%
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=10cm,clip]{image/unpooling_level.pdf}
+%    \caption{本システムにおけるunpooling動作}
+%    \label{fig:unpooling_level}
+%\end{figure}
+%
+%このような実装により、パラメータであるレベルの値以外の変更なく、
+%unpoolingモジュールを再帰的に適用できる。
+%
+%また、前段からの有効出力1画素を複数画素に拡散する特性から、前段のイネーブル信号と
+%バッファリングの大きさ、画像領域によって遷移するステートマシンとして実装を行った。
+%イネーブル信号は出力を行う状態で有効となる。
+%拡張に伴うh\_cntとv\_cntの変更は、左上、右上、左下、右下の値出力を行う
+%状態において、以下のように適切な拡張が行われる。
+%\begin{itemize}
+%\item 左上 : h\_cnt 1ビット0拡張, v\_cnt 1ビット0拡張
+%\item 右上 : h\_cnt 1ビット1拡張, v\_cnt 1ビット0拡張
+%\item 左下 : h\_cnt 1ビット0拡張, v\_cnt 1ビット1拡張
+%\item 右下 : h\_cnt 1ビット1拡張, v\_cnt 1ビット1拡張
+%\end{itemize}
+%
+%
+%%図\ref{fig:unpooling_state}に状態遷移図を示す。
+%
+%出力のイネーブル信号は画素出力に合わせて有効になる。そのため前段と比べ後段の動作回数
+%が増加するが、増減値はpoolingにおける変化と一致し、最終的には最初の動作回数と同等になる。
+%よってストリーム処理が崩れることはない。
+%
+\subsection{bufモジュール}
+bufモジュールは、ItgNetモジュールが受け取るunpoolingからの出力と
+プーリング層適用前の特徴マップを対応付ける機能を持つ。
+通常ならば、それぞれの特徴マップ出力に必要なレイテンシの差分を求め、
+差分だけバッファリングさせることで出力のタイミングを合わせるのが一般的である。
+しかし、本システムはフィルタ演算を始めとする処理の差異が多く、
+レイテンシの差分を正確に求めるのが困難である。
+そこで、画像1枚分のメモリを確保し、座標値(h\_cnt,v\_cnt)に基づくアドレスに
+よって対応付けることとした。図\ref{fig:buf_address}にbufモジュールの設計を示す。
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.9\textwidth,clip]{image/buf_addr.pdf}
+    \caption{bufモジュール}
+    \label{fig:buf_address}
+\end{figure}
+
+\noindent out\_hcnt,\ out\_vcntは各ItgNetモジュール前段のunpolingモジュールの出力が渡される。
+これにより、unpoolingモジュールからの画素値と同じ座標値を持つ
+pooling前の画素値を対応付けることができた。
+
+
+%この設計は、正確なレイテンシ分だけバッファリングさせるものに比べて、
+%余分なメモリを確保することとなる。しかし、FPGAがBRAMによってメモリを
+%確保するときの大きさはある程度決まっており、今回余分に確保する分に関しては
+%BRAMの使用量を大幅に変化させることはないと予想した。
+%ずらす方法とか
+\section{学習}
+\subsection{ツール}
+学習には、Python上で動作するニューラルネットワーク向けフレームワーク
+であるChainer\cite{Chainer}を用いる。Chainerでは、複雑なデータ構造を
+簡潔な記述で構築することができ、CUDAによるGPUを用いた高速な学習も可能である。
+
+また、学習及び評価における各処理には、数値計算ライブラリのNumpyや、画像処理
+ライブラリの...........を用いる。
+\subsection{学習データ}
+今回ニューラルネットワークの学習に用いる
+画像データと教師ラベルからなるデータセットは??枚であり、
+このうち??枚を訓練用データセット、??枚を評価用データセットとして学習を行う。
+画像データは長崎大学病院から提供された
+実際の手術画像であり、画像サイズは672$\times$528となっている。
+また、それらの画像を医師が目視で判断し、手動でラベリングを行い作成された
+画像を教師データとした。これらの画像例を以下の図\ref{fig:train_pic}、
+図\ref{fig:theacher_label}に示す。
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.3\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{image/train01.pdf}
+    \end{subfigure}
+    \begin{subfigure}{0.3\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{image/train02.pdf}
+    \end{subfigure}
+    \centering
+    \begin{subfigure}{0.3\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{image/train03.pdf}
+    \end{subfigure}
+    \caption{実際の手術画像データ}
+    \label{fig:train_pic}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.3\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{image/label01.pdf}
+    \end{subfigure}
+    \begin{subfigure}{0.3\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{image/label02.pdf}
+    \end{subfigure}
+    \centering
+    \begin{subfigure}{0.3\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{image/label03.pdf}
+    \end{subfigure}
+    \caption{教師データ}
+    \label{fig:theacher_label}
+\end{figure}
+
+\subsection{量子化手法}
+ソフトウェアでの実装においては、各演算は32ビットの浮動小数点型で行われ、
+学習の結果得られる重みやバイアス等も同じ型となっている。
+しかしながら、ハードウェア実装においてパラメータに浮動小数点型を
+用いるのは資源容量的に厳しく、固定小数点型を利用するのが望ましい。
+
+そのため、本来ならば学習においても固定小数点型を利用して学習を進め、
+パラメータを決定付けるべきだが、Chainerでは浮動小数点型を用いることが
+前提となっており、固定小数点型で動作させるのは大変難しい。
+そこで、学習は浮動小数点型で行い、得られたパラメータを固定小数点型に変換して
+実装することとした。
+
+%関連論文\cite{sample}.
+%
+%図の参照、図\ref{fig:yoshiki}
+%
+%表の参照、表\ref{tab:sample}
+%
+%\begin{figure}[hbt]
+%    \centering
+%    \includegraphics[scale=1.0,clip]{image/yoshiki_nico.jpg}
+%    \caption{Sample図}
+%    \label{fig:yoshiki}
+%\end{figure}
+%
+%
+%\begin{table}[hbt]
+%    \caption{Sample表}
+%    \centering
+%    \begin{tabular}{|c||c|c|c|c|c|}
+%        \hline
+%        & XXX & XX & XXXXX & XXXX & XXXX\\
+%        \hline\hline
+%        XXXX     & xxx & xxx & xxxx & xx & xx \\\hline
+%        XXXXX & xxx & xxx & xxxx & xx & xx \\\hline   
+%    \end{tabular}
+%    \label{tab:sample}
+%\end{table}
+
+
+
+
+
+

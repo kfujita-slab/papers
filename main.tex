@@ -1,0 +1,49 @@
+% 修論の場合は次の行を \documentclass[master]{nagasaki} とすること    
+\documentclass{nagasaki}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{amsmath,amsfonts}
+\usepackage{multirow}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{ニューラルネットワークを用いた手術画像\\セグメンテーションシステムのFPGA実装}    % 論文題目
+\author{藤田光暉}       % 著者
+\teacher{柴田裕一郎 教授}  % 指導教官名
+\lab{柴田研究室}
+\id{35316034}                 % 学籍番号
+\date{2019年度}               % 年度
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\maketitle                    % 表紙
+\input{abst}                  % 論文要旨（abst.texを読み込む）
+\clearpage
+\pagestyle{headnombre}
+\pagenumbering{roman}
+\tableofcontents              % 目次
+\listoffigures                % 図の目次
+\listoftables                 % 表の目次
+\clearpage
+\pagestyle{headings}
+\pagenumbering{arabic}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 以下本文
+\input{intro}                 % 緒論
+\input{background}            % 背景と目的
+\input{theory}                % 理論
+\input{design}                % 設計と実装
+\input{evaluation}            % 評価と考察
+\input{conclusion}            % 結論
+\input{ack}                   % 謝辞
+
+\bibliographystyle{junsrt}
+\bibliography{ref}            % 参考文献
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 付録がある場合
+%\appendix
+%\input{app}             
+%
+\end{document}
