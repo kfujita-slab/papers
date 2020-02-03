@@ -45,9 +45,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="2007.6519"
-     inkscape:cy="521.91231"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="1336.1376"
+     inkscape:cy="578.69111"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -631,5 +631,72 @@
        d="m -411,262.36218 -590,0 0,-45"
        id="path3096"
        sodipodi:nodetypes="ccc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 0,240.39063 2440,0"
+       id="path3100"
+       transform="translate(-2151,101.97156)" />
+    <path
+       id="path3102"
+       d="m -2151,602.36219 2440,0"
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m -2151,882.36218 2440,0"
+       id="path3104" />
+    <path
+       id="path3106"
+       d="m -2151,1122.3622 2440,0"
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="-2131"
+       y="322.36218"
+       id="text3108"><tspan
+         sodipodi:role="line"
+         id="tspan3110"
+         x="-2131"
+         y="322.36218">LEVEL0</tspan></text>
+    <text
+       id="text3112"
+       y="582.36218"
+       x="-2131"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       xml:space="preserve"><tspan
+         y="582.36218"
+         x="-2131"
+         id="tspan3114"
+         sodipodi:role="line">LEVEL1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="-2131"
+       y="862.36218"
+       id="text3116"><tspan
+         sodipodi:role="line"
+         id="tspan3118"
+         x="-2131"
+         y="862.36218">LEVEL2</tspan></text>
+    <text
+       id="text3120"
+       y="1102.3622"
+       x="-2131"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       xml:space="preserve"><tspan
+         y="1102.3622"
+         x="-2131"
+         id="tspan3122"
+         sodipodi:role="line">LEVEL3</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="-2131"
+       y="1202.3622"
+       id="text3440"><tspan
+         sodipodi:role="line"
+         id="tspan3442"
+         x="-2131"
+         y="1202.3622">LEVEL4</tspan></text>
   </g>
 </svg>
