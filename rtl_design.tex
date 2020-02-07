@@ -1,61 +1,100 @@
 \section{$B@_7W$H<BAu(B}
+\label{rtl_design_top}
 \ref{sec:algorithm}$B@a$G@bL@$7$?%7%9%F%`$N%O!<%I%&%'%"2=$K$"$?$j!"(B
 $B30It$+$i$NF~NO2hA|$O!"=g<!Av::$K$h$j?eJ?$*$h$S?bD>:BI8(B(h\_cnt,v\_cnt)$B$H6&$K2hAGCM(B(in\_pixel)$B$N%9%H%j!<%`$H$7$FM?$($i$l$k$3$H$rA[Dj$9$k!#(B
 $B$=$l$KH<$$!"=PNO$O:BI8$H6&$K(B4$B<oN`$N%/%i%9%i%Y%k$,(B1$B2hAG$:$DJV$5$l$k!#(B
 
 FPGA$B$X$N<BAu$O!"(BVerilog HDL$B$rMQ$$$?(BRTL$B5-=R$K$F9T$C$?!#(B
-$BO@M}9g@.!&G[CVG[@~$K$O(BVivado 2018.3$B$rMQ$$!"%?!<%2%C%H(BFPGA$B$O(B
-Virtex UltraScale xcvu095-ffva2104-2-e-es2$B$H$7$?!#(B
+$BO@M}9g@.$K$O(BVivado 2018.3$B$rMQ$$!"%?!<%2%C%H(BFPGA$B$O(B
+Virtex UltraScale xcvu095-ffva2104-2-e2$B$H$7$?!#(B
 \subsection{$B%7%9%F%`9=@.(B}
+\label{sec:system_design}
 $B?^(B\ref{fig:segment_soft}$B$N%M%C%H%o!<%/9=@.$r4p$K!"(B
 $B?^(B\ref{fig:segment_design}$B$N$h$&$J@_7W$r9T$C$?!#(B
 
 \begin{figure}[hbt]
     \centering
-    \includegraphics[width=\textwidth,clip]{image/segment_design.pdf}
+    \includegraphics[width=0.9\textwidth,clip]{image/segment_design.pdf}
     \caption{$B%7%9%F%`9=@.35N,?^(B}
     \label{fig:segment_design}
 \end{figure}
 
-$B%7%9%F%`A4BN$O!"=g<!Av::$K$h$jM?$($i$l$k2hA|>pJs$KBP$7$F!"40A4%9%H%j!<%`=hM}$r9T$&$3$H$,$G$-$k@_7W$H$J$C$F$$$k!#>v$_9~$_Ey$N%U%#%k%?1i;;$OE,@Z$J%P%C%U%!%j%s%0$K$h$j!"(B
-$B%U%#%k%?$HBP1~$9$k2hAG$N<~0O2hA|(B($B%Q%C%A(B)$B$K@Z$j=P$5$l!"%D%j!<9=B$$N1i;;4o$G(B
-$B=hM}$5$l$k!#(Bpooling$B!&(Bunpooling$B$K$h$j2hA|%5%$%:$,JQ2=$7$F$b!"(B
-$B%$%M!<%V%k@)8f$K$h$C$F%9%H%j!<%`=hM}$r0];}$9$k!#(B
-$B0J2<$N9`L\$G$O!"$3$3$K5s$2$?3F=hM}$r9T$&%b%8%e!<%k$N>\:Y$r=R$Y$k!#(B
+$B%7%9%F%`A4BN$O!"=g<!Av::$K$h$jM?$($i$l$k2hA|>pJs$KBP$7$F!"40A4%9%H%j!<%`=hM}$r9T$&$3$H$,$G$-$k@_7W$H$J$C$F$$$k!#>v$_9~$_Ey$N%U%#%k%?1i;;$O!"E,@Z$J%P%C%U%!%j%s%0$K$h$j@Z$j=P$5$l$?(B
+$B2hAG$N<~0O2hA|(B($B%Q%C%A(B)$B$H%U%#%k%?$rMQ$$$F!"%D%j!<9=B$$N1i;;4o$G(B
+$B=hM}$5$l$k!#(B
+$B$?$@$7!"(Bpooling$B!&(Bunpooling$B$K$h$jM-8z2hAG$N=PNO%?%$%_%s%0$,JQ2=$9$k$?$a!"(B
+$BM-8z2hAG$N%?%$%_%s%0$rI=$9%Q%i%a!<%?(B(LEVEL)$B$H%$%M!<%V%k?.9f(B
+$B$K$h$C$F%9%H%j!<%`=hM}$r0];}$9$k!#(B
+LEVEL$B$O!"?^(B\ref{fig:LEVEL_design}$B$K<($9DL$j!"Kh%/%m%C%/M-8z2hAG$r=PNO$9$k%?%$%_%s%0$r(B
+LEVEL0$B$H$7!"%?%$%_%s%0$,=D2#$=$l$>$lH>J,$K$J$kEY$K(B1,2...$B$H@_Dj$7$?!#(B
+$B$J$*!"?^(B\ref{fig:segment_design}$B$K<($7$?(BLEVEL$B$N6hJ,$K$D$$$F$O!"(B
+pooling$B%b%8%e!<%k$OF~NO$KBP$7$F!"(Bunpool$B%b%8%e!<%k$O=PNO$KBP$7$F!"(B
+$B$=$l0J30$N%b%8%e!<%k$G$OF~=PNO$KBP$7$F?^(B\ref{fig:LEVEL_design}$B$K<($7$?$h$&$K(B
+$B%?%$%_%s%0$r$H$k!#(B
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.9\textwidth,clip]{image/LEVEL_design.pdf}
+    \caption{LEVEL$B$4$H$NM-8z2hAGJQ2=(B}
+    \label{fig:LEVEL_design}
+\end{figure}
+
+$B0J2<$N9`L\$G$O!"$3$3$K5s$2$?3F%b%8%e!<%k$K$D$$$F!"(BLEVEL$B$H(B
+$B%$%M!<%V%k?.9f$K$h$k@)8fJ}K!$K?($l$J$,$i!"=hM}$N@_7W$H<BAu$K$D$$$F>\:Y$r=R$Y$k!#(B
 \subsection{stream\_patch$B%b%8%e!<%k(B}
 \label{sec:patch}
-$B%U%#%k%?1i;;$,9T$o$l$k3F%b%8%e!<%kFb$G$O!"Ev8&5f<<Fb$GMxMQ$5$l$F$$$k%Q%C%A@Z$j=P$7$N(B
-$B%F%s%W%l!<%H%b%8%e!<%k(B(stream\_patch)$B$,MQ$$$i$l$F$$$k!#(B
+$B%U%#%k%?1i;;$,9T$o$l$k3F%b%8%e!<%kFb$G$O!"%Q%C%A@Z$j=P$7$N(B
+$B$?$a$N%b%8%e!<%k(B(stream\_patch)$B$,MQ$$$i$l$F$$$k!#(B
 $BM-8z2hAG$NF~NO$4$H$K!"%U%#%k%?$KBP1~$7$?Bg$-$5$N%Q%C%A$,@Z$j=P$5$l$kMM;R$r(B
 $B?^(B\ref{fig:stream_patch}$B$K<($9!#(B
+$B$3$l$K$h$j!"M-8z2hAG$,F~NO$5$l$k%/%m%C%/$4$H$N%U%#%k%?1i;;$,2DG=$H$J$k!#(B
 \begin{figure}[hbt]
     \centering
     \includegraphics[width=0.6\textwidth,clip]{image/patch.pdf}
     \caption{$B%Q%C%A@Z$j=P$7(B}
     \label{fig:stream_patch}
 \end{figure}
-$B$3$l$K$h$j!"M-8z2hAG$,F~NO$5$l$k%/%m%C%/$4$H$N%U%#%k%?1i;;$,2DG=$H$J$k!#(B
 
-$B>\:Y$O(B\ref{sec:pooling_design}$B!&(B\ref{sec:unpooling_design}$B@a(B
-$B$K$F=R$Y$k$,!"K\%7%9%F%`$G$O(Bpooling$B!&(Bunpooling$B$K$h$C$FM-8z2hAG$N%?%$%_%s%0$,JQ2=$9$k!#(B
-$B$=$3$G!"(Bstream\_patch$B$K%$%M!<%V%k?.9f$rDI2C$7!"M-8z2hAG$,F~$i$J$$%/%m%C%/(B
-$B$G$O%b%8%e!<%k$rDd;_$5$;$k$3$H$G!"A4BN$N%9%H%j!<%`=hM}$r0];}$9$k@_7W$H$7$?!#(B
-$B%9%H%j!<%`%Q%C%A%b%8%e!<%kFb$GMQ$$$i$l$F$$$k%P%C%U%!MQ$N%a%b%j$O!"(B
+\ref{sec:system_design}$B@a$G=R$Y$?DL$j!"K\%7%9%F%`$G$O(Bpooling$B!&(Bunpooling$B$K$h$C$FM-8z2hAG$N%?%$%_%s%0$,JQ2=$9$k!#(B
+$B$=$3$G!"(Bstream\_patch$B%b%8%e!<%k$K%$%M!<%V%k?.9f$rDI2C$7!"(B
+$BM-8z2hAG$,F~NO$5$l$J$$%/%m%C%/(B
+$B$G$O(BFIFO$B$rDd;_$5$;$k$3$H$G!"A4BN$N%9%H%j!<%`=hM}$r0];}$9$k@_7W$H$7$?!#(B
+stream\_patch$B%b%8%e!<%kFb$GMQ$$$i$l$F$$$k%P%C%U%!MQ$N%a%b%j$O!"(B
 Vivado$B$KAH$_9~$^$l$?(BIP$B%+%?%m%0$K$h$j@8@.$5$l$?%7%s%W%k%G%e%"%k%]!<%H%a%b%j$G$"$k!#(B
 $B$3$N%a%b%j$O=q$-9~$_%$%M!<%V%k$rF~NO$K;}$D$?$a!"(B
 0$B$rF~NO$9$k$3$H$G?^(B\ref{fig:stream_patch}$B$K<($7$?(BFIFO$B$rDd;_$5$;$k$3$H$,$G$-$k!#(B
+$B$h$C$F!"I,MW$H$J$k(BFIFO$B%5%$%:$O(B1$B9T$"$?$j$NM-8z2hAG?t$H$J$j!"(BLEVEL$B$rMQ$$$?(B
+$B<0(B\ref{LEVEL_WIDTH}$B$K$h$C$F7hDj$5$l$k!#(B
+$BM-8z2hAG0J30$r%a%b%j$K3JG<$9$kI,MW$,$J$$$?$a!"%$%M!<%V%k@)8f$rMQ$$$:$K(B
+FIFO$B$rDd;_$5$;$J$$<BAu$KHf$Y$F!";q8;$N>CHqNL$b>/$J$$!#(B
+\begin{align}
+    \mathrm{FIFO$B%5%$%:(B} = \mathrm{WIDTH($B2hA|2#I}(B)}\div2^{\mathrm{LEVEL}}
+    \label{LEVEL_WIDTH}
+\end{align}
+%$B$H$$$&(BLEVEL$B$rMQ$$$?(B
+%$B7W;;$K$h$C$F7hDj$5$l$k!#(B
+
+$B$^$?!"(Bstream\_patch$B$,=PNO$9$Y$-:BI8CM$O!"$=$N%/%m%C%/$GF~NO$5$l$?:BI8CM$H(Bstream\_patch$B%b%8%e!<%k$N%l%$%F%s%7$rMxMQ$7$?7W;;$K$h$C$F5a$a$i$l$k!#(B
+$BM-8z2hAG$NF~NO%?%$%_%s%0$N0c$$$K$h$j%b%8%e!<%k$N%l%$%F%s%7$OJQ2=$9$k$,!"(B
+$BI,MW$H$9$kM-8z2hAG$NF~NO?t$OJQ2=$7$J$$$?$a!"(B
+$B4p=`$H$J$k(BLEVEL0$B$N%l%$%F%s%7(B(LATENCY)$B$H!"(B
+$BM-8z2hAG$,F~NO$5$l$k4V3V$rMQ$$$F!"<0(B\ref{LEVEL_LATENCY}$B$N$h$&$K(B
+LEVEL$B$4$H$N%l%$%F%s%7$r5a$a$k$3$H$,$G$-$k!#(B
+\begin{align}
+\mathrm{patch\_stream$B%b%8%e!<%k$N%l%$%F%s%7(B} = \mathrm{LATENCY}\times 2^{\mathrm{LEVEL}}
+\label{LEVEL_LATENCY}
+\end{align}
 
 stream\_patch$B$NJQ99$K$h$j!"%U%#%k%?1i;;$r9T$&%b%8%e!<%k$OE,@Z$J%$%M!<%V%k?.9f$r(B
-$BA0CJ$+$i<u$1$H$k$3$H$G!"%5%$%:$NJQ99$K$h$kM-8z2hAG%?%$%_%s%0$NJQ2=$KBP1~$G$-$k$h$&$K$J$C$?!#$=$NB>$NDd;_A`:n$d!"3F%b%8%e!<%k$N%$%M!<%V%k?.9f$N=PNOJ}K!$K$D$$$F$O(B
-$B!"0J2<$N9`L\Fb$K$F>\:Y$r=R$Y$k!#(B
+$BA0CJ$+$i<u$1$H$k$3$H$G!"M-8z2hAG$N%?%$%_%s%0JQ2=$KBP1~$G$-$k$h$&$K$J$C$?!#3F%b%8%e!<%kFb$G$N!"$=$NB>$NDd;_A`:n$d%$%M!<%V%k?.9f$N=PNOJ}K!$K$D$$$F$O(B
+$B0J2<$N9`L\Fb$K$F>\:Y$r=R$Y$k!#(B
 
 \subsection{ExtNet$B!&(BRdcNet$B!&(BItgNet$B%b%8%e!<%k(B}
 \ref{sec:conv}$B@a$G@bL@$7$?DL$j!"(B
 $BK\%7%9%F%`$N>v$_9~$_AX$O(B3$B<oN`$N>.5,LO%M%C%H%o!<%/$+$i9=@.$5$l$k$?$a!"(B
 $B$=$l$>$l(B3$B<oN`$N%b%8%e!<%k$H$7$F<BAu$r9T$&$,!"(B
 3$B<oN`$N%M%C%H%o!<%/$K$O@QOB1i;;$d3h@-2=4X?t$NE,MQ$J$I6&DL$9$kItJ,$bB?$$!#(B
-$B$=$3$G!"?^(B\ref{fig:neuron_image}$B$KI=$7$?$h$&$J!"3F%K%e!<%m%s$N7W;;$r9T$&ItJ,$r(B
-$BAX(B(layer)$B$H$7$F$H$i$(!"6&DL%b%8%e!<%k$H$7$F<BAu$9$k$3$H$G@_7W$NC1=c2=$rA@$&!#(B
+$B$=$3$G!"?^(B\ref{fig:NN_image}$B$KI=$7$?$h$&$J!"AX4V$K$*$1$k%K%e!<%m%s$N7W;;$r(B
+$B6&DL%b%8%e!<%k(B(layer$B%b%8%e!<%k(B)$B$H$7$F<BAu$9$k$3$H$G@_7W$NC1=c2=$rA@$&!#(B
 $B?^(B\ref{fig:layer_image}$B$K(Blayer$B%b%8%e!<%k$K$h$k%M%C%H%o!<%/:n@.$N%$%a!<%8?^$r<($9!#(B
 \begin{figure}[hbt]
     \centering
@@ -63,28 +102,54 @@ stream\_patch$B$NJQ99$K$h$j!"%U%#%k%?1i;;$r9T$&%b%8%e!<%k$OE,@Z$J%$%M!<%V%k?.9f
     \caption{layer$B%b%8%e!<%k$K$h$k%M%C%H%o!<%/:n@.%$%a!<%8(B}
     \label{fig:layer_image}
 \end{figure}
-layer$B%b%8%e!<%k$O%Q%i%a!<%?$K$h$C$FE,MQ$9$k%K%e!<%m%s$N?t$rJQ99$9$k$3$H$,$G$-!"(B
+layer$B%b%8%e!<%k$O%Q%i%a!<%?$K$h$C$F!"FbIt$N%K%e!<%m%s$N?t$rJQ99$G$-!"(B
 layer$B$r=E$M$k$3$H$G!"B?CJ%M%C%H%o!<%/$r<BAu$9$k!#(B
 $B$h$C$F!"%M%C%H%o!<%/A4BN$NF~=PNO!"(Blayer$B%b%8%e!<%k$r8F$S=P$9CJ?t!"3F(Blayer$B%b%8%e!<%k$N(B
-$B%Q%i%a!<%?$NJQ99$r9T$&$3$H$G!":#2sI,MW$H$9$k%M%C%H%o!<%/%b%8%e!<%k$,<BAu2DG=$H$J$k!#(B
+$B%Q%i%a!<%?$NJQ99$r9T$&$3$H$G!":#2s<BAu$9$k(BExtNet,\ RdcNet,\ ItgNet,\ 1$\times$1\_conv$B$N3F(BNet$B%b%8%e!<%k$,<BAu2DG=$H$J$k!#(B
 
-layer$B%b%8%e!<%k$K$D$$$F@bL@$9$k!#(Blayer$B%b%8%e!<%k$O(B$n$$B%A%c%M%k$N2hAG$r(B1$B2hAG$:$D<u$1<h$j!"(B
+layer$B%b%8%e!<%k$K$D$$$F@bL@$9$k!#(Blayer$B%b%8%e!<%k$O(B$n$$B%A%c%M%k$N2hAG$r$=$l$>$l(B1$B2hAG$:$D<u$1<h$j!"(B
 stream\_patch$B%b%8%e!<%k$K$h$C$F%Q%C%A$K@Z$j=P$7$?8e!"(B
 $B>v$_9~$_1i;;!"%P%$%"%92C;;!"3h@-2=4X?t$NE,MQ$r9T$&!#(B
-$B>v$_9~$_$K$*$1$k2C;;4o%D%j!<$r?^(B\ref{fig:add_tree}$B$KI=$9!#(B
+$B>v$_9~$_$K$*$1$k2C;;4o%D%j!<$r!"(B
+$B%U%#%k%?$N0lJU$ND9$5(B(FLT\_SIZE)$B$r(B3$B!"(B
+$BA0CJ$N%K%e!<%m%s?t(B(PREV\_NEURONS)$B$r(B3$B!"(B
+$B8eCJ$N%K%e!<%m%s?t(B(NEW\_NEURONS)$B$r(B2
+$B$H$7$?$H$-$NNc$r?^(B\ref{fig:add_tree}$B$K<($9!#(B
+layer$B%b%8%e!<%k$,=PNO$9$k:BI8CM$O!"(Bstream\_patch$B%b%8%e!<%k$,=PNO$9$k(B
+$B:BI8CM$H!">v$_9~$_1i;;$H3h@-2=4X?t$NE,MQ$KI,MW$J%l%$%F%s%7$K$h$C$F5a$a$i$l$k!#(B
+$B>v$_9~$_1i;;$N%l%$%F%s%7$O!"%Q%C%A$"$?$j$N2hAG?t(B$(\mathrm{PATCH\_NUM = FLT\_SIZE}^2)$$B$H!"A0CJ$N%K%e!<%m%s?t(B(PREV\_NEURONS)$B$K0MB8$7!"<0(B\ref{layer_LATENCY}$B$N$h$&$K5a$a$i$l$k!#(B
+\begin{align}
+    \mathrm{$B>v$_9~$_1i;;$N%l%$%F%s%7(B} = \log{2}(\mathrm{PATCH\_NUM}\times\mathrm{PREV\_NEURONS})
+    \label{layer_LATENCY}
+\end{align}
 \begin{figure}[hbt]
     \centering
-    \includegraphics[width=0.5\textwidth,clip]{image/add_tree.pdf}
+    \includegraphics[width=0.95\textwidth,clip]{image/add_tree_change.pdf}
     \caption{$B2C;;4o%D%j!<$K$h$k>v$_9~$_1i;;(B}
     \label{fig:add_tree}
 \end{figure}
 
-\ref{sec:patch}$B@a$G=R$Y$?$h$&$K!"3F(BNet$B%b%8%e!<%k$OA0CJ$+$i$N%$%M!<%V%k?.9f$r(B
-stream\_patch$B%b%8%e!<%k$KEO$9$3$H$G!"%b%8%e!<%k$rDd;_$5$;$k$3$H$,$G$-$k!#(B
-$B$^$?!"<u$1<h$C$?%$%M!<%V%k?.9f$r<+?H$N%l%$%F%s%7J,CY1d$5$;$F=PNO$9$k$3$H$G!"(B
-$B8eCJ$N%b%8%e!<%k$KBP$9$k%$%M!<%V%k?.9f$H$9$k!#(B
-$B2hAG$N:BI8CM(B(h\_cnt,v\_cnt)$B$K4X$7$F$b!"(B
-$B%$%M!<%V%k?.9f$HF1MM$NCY1d$,9T$o$l$F=PNO$5$l$k!#(B
+\noindent $B$^$?!"(Blayer$B%b%8%e!<%k$,=PNO$9$k%$%M!<%V%k?.9f$K$D$$$F$O!"(B
+$B<+?H$N(BLEVEL$B$H<+$i$,=PNO$9$k:BI8CM$rMxMQ$7$?(B
+$BM-8z2hAGH=Dj$K$h$C$F?.9f$NCM$r7hDj$G$-$k!#(B
+$B?^(B\ref{fig:LEVEL_design}$B$r4p$K$7$F@_Dj$5$l$?!"(BLEVEL$B$K$h$C$FCmL\$9$Y$-:BI8CM$N%S%C%HI}$r(B
+$B7hDj$9$kH=DjJ}K!$rI=(B\ref{tab:layer_enable}$B$K<($9!#(B
+\begin{table}[hbt]
+    \caption{$B=PNO:BI8CM$H(BLEVEL$B$K$h$kM-8z2hAGH=Dj(B(layer$B%b%8%e!<%k(B)}
+    \centering
+    \begin{tabular}{l|c}
+        
+        & $B%$%M!<%V%k?.9fCM(B\\
+        \hline
+        LEVEL0    & 1'b1\\
+        LEVEL$N$($N\neq0$) & (\&hcnt[$N-1:0]$)\ \&\&\ (\&vcnt[$N-1:0]$)\\
+    \end{tabular}
+    \label{tab:layer_enable}
+\end{table}
+%\ref{sec:patch}$B@a$G=R$Y$?$h$&$K!"3F(BNet$B%b%8%e!<%k$OA0CJ$+$i$N%$%M!<%V%k?.9f$r(B
+%stream\_patch$B%b%8%e!<%k$KEO$9$3$H$G!"%b%8%e!<%k$rDd;_$5$;$k$3$H$,$G$-$k!#(B
+%$B=PNO$9$Y$-2hAG$N:BI8CM$O!"(Bstream\_patch$B$,=PNO$9$k:BI8CM$r(Blayer$B%b%8%e!<%kFb$G$N(B
+%$B>v$_9~$_1i;;(B
 %$B$^$?!"F~NO$H$7$F%$%M!<%V%k?.9f$r<u$1<h$j!"(B
 %$B%9%H%j!<%`%Q%C%A%b%8%e!<%k$KEO$9$3$H$GF0:n@)8f$9$k!#$^$?!"<+?H$N(B
 %$B%l%$%F%s%7J,CY1d$5$;$F=PNO$9$k$3$H$G!"8eCJ$N(Blayer$B$^$?$O<!$N%b%8%e!<%k$N%$%M!<%V%k?.9f$H$9$k!#(B
@@ -93,15 +158,19 @@ stream\_patch$B%b%8%e!<%k$KEO$9$3$H$G!"%b%8%e!<%k$rDd;_$5$;$k$3$H$,$G$-$k!#(B
 %$BE,@Z$JCY1d$,9T$o$l$F=PNO$5$l$k!#(B
 %DSP$B?dO@!"0n$lJ,$r%m%8%C%/$G<BAu$9$kOC$r=q$/M=Dj$G$9!#(B
 %$B$=$l$h$j$b!"@QOB1i;;J}K!$K$D$$$F$+$$$?$[$&$,$$$$$s$G$J$$(B
-\clearpage
 \subsection{pooling$B%b%8%e!<%k(B}
 \label{sec:pooling_design}
-pooling$B%b%8%e!<%k$b3F(BNet$B%b%8%e!<%k$HF1$8$/!"(Bstream\_patch$B%b%8%e!<%k$rMQ$$$F(B
-$BBP>]2hAG$NF~NO$4$H$KF0:n$9$k$3$H$,$G$-$k!#(B
-$B$3$3$G$$$&BP>]2hAG$H$O!":#2s(B$2\times2$ max pooling$B$rE,MQ$9$k$?$a!"(B
-$B2hA|A4BN$r(B$2\times2$$B$NNN0h$G6h@Z$C$?:]$N1&2<2hAG$N$3$H$r$$$&!#(B
-$B1&2<2hAG$,F~$C$?%/%m%C%/$G(Bpooling$B$r9T$$!"%$%M!<%V%k?.9f$H9g$o$;$F=PNO$r9T$&!#(B
-$B@Z$j=P$5$l$?%Q%C%AFb$N:GBgCM$r5a$a$k%D%j!<$r?^(B\ref{fig:pooling_tree}$B$K<($9!#(B
+pooling$B%b%8%e!<%k$b(Blayer$B%b%8%e!<%k$HF1$8$/!"(Bstream\_patch$B%b%8%e!<%k$rMQ$$$F(B
+$BBP>]2hAG$NF~NO$4$H$KF0:n$G$-$k!#(B
+$B$3$3$GMQ$$$kBP>]2hAG$H$O!":#2s(B$2\times2$ max pooling$B$rE,MQ$9$k$?$a!"(B
+$B2hA|A4BN$r(B$2\times2$$B$NNN0h$G6h@Z$C$?:]$N3FNN0h$N1&2<2hAG$N$3$H$G$"$k!#(B
+$B1&2<2hAG$,F~$C$?%?%$%_%s%0$G(Bpooling$B$r9T$$!"(B
+$B%$%M!<%V%k?.9f$H9g$o$;$F=PNO$r9T$&!#(B
+$B@Z$j=P$5$l$?%Q%C%AFb$N:GBgCM$r5a$a$k%D%j!<$r!"(B
+$B%K%e!<%m%s$N?t$,(B3$B$N$H$-$rNc$H$7$F?^(B\ref{fig:pooling_tree}$B$K<($9!#(B
+$B?^(B\ref{fig:pooling_tree}$B$+$i$o$+$kDL$j!"(B
+pooling$B$KI,MW$J%l%$%F%s%7$O(Blayer$B%b%8%e!<%k$N$h$&$K%K%e!<%m%s$N?t(B
+$B$GJQ2=$9$k$3$H$O$J$$!#(B
 \begin{figure}[hbt]
     \centering
     \includegraphics[width=0.5\textwidth,clip]{image/pooling_tree.pdf}
@@ -109,24 +178,52 @@ pooling$B%b%8%e!<%k$b3F(BNet$B%b%8%e!<%k$HF1$8$/!"(Bstream\_patch$B%b%8%e!<
     \label{fig:pooling_tree}
 \end{figure}
 
-\noindent $B1&2<2hAG$G$"$k$3$H$O!":BI8CM$N2<0L(B1$B%S%C%H$rMQ$$$?0J2<$N>r7oJ8$GH=Dj$G$-$k!#(B
-\begin{itemize}
-\item\ if\ (\ h\_cnt[0] == 1 \&\& v\_cnt[0] == 1\ )
-\end{itemize}
-
-$B$^$?!":BI8CM(B(h\_cnt,v\_cnt)$B$N=PNO$O%5%$%:$NJQ2=$K9g$o$;$FE,@Z$KJQ99$5$l$kI,MW$,$"$k!#(B
-\ref{sec:pooling}$B@a$G=R$Y$?DL$j!"3F(Bpooling$B%b%8%e!<%k$N=PNO%5%$%:$OF~NO$K(B
-$BBP$7$F=D2#$=$l$>$lH>J,$H$J$k$N$G!"2<0L(B1$B%S%C%H$r@Z$j<N$F$l$P$h$$!#(B
-$B$3$N2hA|%5%$%:=L>.$KH<$$!"8eCJ$N%b%8%e!<%k$K$*$1$k(B
-$BM-8z2hAG$,F~$k%?%$%_%s%0$,JQ2=$9$k!#?^(B\ref{fig:pooling_clock}$B$K$=$NMM;R$r<($9!#(B
-$B:8?^$OKh%/%m%C%/M-8z2hAG$r=PNO$7$F$$$k$N$KBP$7!"(Bpooling$B%b%8%e!<%k$N(B
-$BE,MQ$4$H$KM-8z2hAG$r=PNO$9$k%/%m%C%/$,8:>/$7$F$$$k$3$H$,$o$+$k!#(B
-\begin{figure}[hbt]
+layer$B%b%8%e!<%k$HF1$8$/!"=PNO$9$k%$%M!<%V%k?.9f$NCM$O!"(B
+$B<+?H$N(BLEVEL$B$H=PNO$9$k:BI8CM$rMQ$$$?H=Dj$K$h$C$F7hDj$9$k$3$H$,$G$-$k!#(B
+$B$3$3$G$O!"<+?H$N(BLEVEL$B$H$$$&I=8=$KCm0U$7$F$*$-$?$$!#(B
+\ref{sec:system_design}$B@a$G=R$Y$?DL$j!"(B
+pooling$B%b%8%e!<%kFb$G07$o$l$k(BLEVEL$B$NCM$OF~NO$r4p=`$KM?$($i$l$F$$$k$,!"(B
+pooling$B%b%8%e!<%k$O!"F~NO$KBP$7$F=PNO$r=D2#$=$l$>$lH>J,$K$9$k$?$a!"(B
+$B$$$o$P(BLEVEL$B$r2<$2$k=hM}$r9T$C$F$$$k$H$$$($k!#(B
+$B$=$N$?$a!"=PNO$9$k%$%M!<%V%k?.9f$NH=Dj$O(BLEVEL$B$,JQ2=$9$k$H$$$&A0Ds$G9T$&I,MW$,(B
+$B$"$j!"F1(BLEVEL$B$N(Blayer$B%b%8%e!<%k$NH=Dj$H$O0c$C$?$b$N$H$J$k!#(B
+$BI=(B\ref{tab:pool_enable}$B$K$=$NH=DjJ}K!$r<($9!#(B
+$BI=(B\ref{tab:layer_enable}$B$H8+Hf$Y$k$H!"(BLEVEL$B$NMQ$$J}$K(B
+$B0c$$$,$"$k$3$H$,3NG'$G$-$k!#(B
+\begin{table}[hbt]
+    \caption{$B=PNO:BI8CM$H(BLEVEL$B$K$h$kM-8z2hAGH=Dj(B(pooling$B%b%8%e!<%k(B)}
     \centering
-    \includegraphics[width=0.8\textwidth,clip]{image/pooling_clock.pdf}
-    \caption{$BM-8z2hAG$,=PNO$5$l$k%/%m%C%/?t$NJQ2=(B}
-    \label{fig:pooling_clock}
-\end{figure}
+    \begin{tabular}{l|c}
+        
+        & $B%$%M!<%V%k?.9fCM(B\\
+        \hline
+        LEVEL$N$ & (\&hcnt[$N:0]$)\ \&\&\ (\&vcnt[$N:0]$)\\
+    \end{tabular}
+    \label{tab:pool_enable}
+\end{table}
+
+%\noindent $B1&2<2hAG$G$"$k$3$H$O!"(Blayer$B%b%8%e!<%k(B
+%$B$K$*$1$k=PNOH=Dj$HF1$8$/!"(B
+%$B<+?H$N(BLEVEL$B$H:BI8CM$K$h$C$FH=Dj$9$k$3$H$,$G$-$k!#(B
+%$BI=(B\ref{tab:pool_enable}$B$K$=$NH=DjJ}K!$r<($9!#(Bpooling$B%b%8%e!<%k$O(B
+%$B=PNO$,F~NO$KBP$7$F=D2#$=$l$>$lH>J,$K$J$k$3$H$+$i!"(B
+%$BF1$8(BLEVEL$B$N3F(BNet$B%b%8%e!<%k$N=PNO$KBP$7$F(B
+%\begin{itemize}
+%\item\ if\ (\ h\_cnt[0] == 1 \&\& v\_cnt[0] == 1\ )
+%\end{itemize}
+%$B$^$?!":BI8CM(B(h\_cnt,v\_cnt)$B$N=PNO$O%5%$%:$NJQ2=$K9g$o$;$FE,@Z$KJQ99$5$l$kI,MW$,$"$k!#(B
+%\ref{sec:pooling}$B@a$G=R$Y$?DL$j!"3F(Bpooling$B%b%8%e!<%k$N=PNO%5%$%:$OF~NO$K(B
+%$BBP$7$F=D2#$=$l$>$lH>J,$H$J$k$N$G!"2<0L(B1$B%S%C%H$r@Z$j<N$F$l$P$h$$!#(B
+%$B$3$N2hA|%5%$%:=L>.$KH<$$!"8eCJ$N%b%8%e!<%k$K$*$1$k(B
+%$BM-8z2hAG$,F~$k%?%$%_%s%0$,JQ2=$9$k!#?^(B\ref{fig:pooling_clock}$B$K$=$NMM;R$r<($9!#(B
+%$B:8?^$OKh%/%m%C%/M-8z2hAG$r=PNO$7$F$$$k$N$KBP$7!"(Bpooling$B%b%8%e!<%k$N(B
+%$BE,MQ$4$H$KM-8z2hAG$r=PNO$9$k%/%m%C%/$,8:>/$7$F$$$k$3$H$,$o$+$k!#(B
+%\begin{figure}[hbt]
+%    \centering
+%    \includegraphics[width=0.8\textwidth,clip]{image/pooling_clock.pdf}
+%    \caption{$BM-8z2hAG$,=PNO$5$l$k%/%m%C%/?t$NJQ2=(B}
+%    \label{fig:pooling_clock}
+%\end{figure}
 %$B$?$@$7!">v$_9~$_=hM}$H$O0c$$!"%U%#%k%?%5%$%:(B2$\times$2$B$KBP$7$F%9%H%i%$%I(B2$B$G$"$k$?$a!"(B
 %$B=PNO$OKh%/%m%C%/M-8z$G$J$/!"(B2$\times$2$B$G6h@Z$i$l$?NN0h$N1&2<2hAGF~NO$K9g$o$;$F(B
 %$BM-8z$H$J$k!#(B
@@ -149,94 +246,165 @@ pooling$B%b%8%e!<%k$b3F(BNet$B%b%8%e!<%k$HF1$8$/!"(Bstream\_patch$B%b%8%e!<
 unpooling$BF0:n$OC1=c$J2hAG3HD%A`:n$G$"$k$?$a!"(B
 $BF~NO2hAG$N%P%C%U%!%j%s%0$K$h$C$F<BAu$9$k!#(B
 $BA0CJ$+$i$NM-8z2hAG$KBP$7$F!"?^(B\ref{fig:unpooling_design}$B$N$h$&$K(B
-$B1&>e!":82<!"1&2<$K3HD%$9$k$K$"$?$j!"%P%C%U%!$NBg$-$5$rE,@Z$K7hDj$9$kI,MW$,$"$k$,!"(B
-$B?^(B\ref{fig:unpooling_clock}$B$K<($9$h$&$K!"(Bunpooling$B$NE,MQ2s?t$K$h$k(B
-$BM-8z=PNO%?%$%_%s%0$NJQ2=$O5,B'E*$G$"$k$?$a!"E,MQ2s?t$r4p$H$7$?%Q%i%a!<%?$K$h$C$F(B
-$B%P%C%U%!$NBg$-$5$r7hDj$9$k$3$H$H$7$?!#(B
-$B$3$N%Q%i%a!<%?$r(BLEVEL$B$H$7!"85!9$NF~NO2hA|$HF1$8%5%$%:$KJQ2=$9$k:]!"(B
-$B$D$^$jKh%/%m%C%/M-8z2hAG$r=PNO$9$k(B
-unpooling$B$N(BLEVEL$B$r(B0$B!"0J9_$r(B1...2...$B$H@_Dj$9$k!#(B
-LEVEL$B$K4p$E$$$F7hDj$5$l$k%P%C%U%!$NBg$-$5$r0J2<$K<($9!#$3$l$K$h$j!"(B
-unpooling$B%b%8%e!<%k$O%Q%i%a!<%?$H$7$F(BLEVEL$B$r@_Dj$9$k$@$1$G(B
-$B:F5"E*$JMxMQ$,2DG=$J@_7W$H$J$C$?!#(B
+$B3HD%$r9T$&$,!"<B:]$KF~NO$5$l$kM-8z2hAG$N:BI8CM$O(Bpooling$B%b%8%e!<%k$K$*$1$k(B
+$BA`:n$+$i!"6h@Z$i$l$?NN0hFb$G$N1&2<2hAG$G$"$k!#(B
+$B$D$^$j!"(Bunpooling$B$O6h@Z$i$l$?NN0hFb$N1&2<$N2hAG$r<u$1<h$j!"(B
+$B?7$?$K@_Dj$5$l$?NN0h$N1&2<$X$H3HD%$9$kA`:n$H$$$($k!#(B
+$B?^(B\ref{fig:unpooling_image}$B$K(Bunpooling$B%b%8%e!<%k$G9T$o$l$kA`:n$N%$%a!<%8?^$r<($9!#(B
+$B$3$l$r4p$K!"I,MW$H$J$k%P%C%U%!%j%s%0$NBg$-$5!"=PNO$9$k:BI8CM!"%$%M!<%V%k?.9f(B
+$B$rE,@Z$K@_Dj$9$k!#(B
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.6\textwidth,clip]{image/unpooling_image.pdf}
+    \caption{LEVEL$B$K$h$k(Bunpooling$B%b%8%e!<%kF0:n%$%a!<%8$NJQ2=(B}
+    \label{fig:unpooling_image}
+\end{figure}
+
+$B$^$:!":BI8CM$K$D$$$F$@$,!":8>eJ}8~$X$N3HD%$OM-8z2hAG$,F~NO$5$l$?$H$-$K(B
+$B=PNO$9$k$3$H$,2DG=$G$"$k!#(B
+$B$7$?$,$C$F!"F~NO$5$l$kM-8z2hAG$N:BI8CM$KBP$7!"<0(B\ref{unpool_outcnt}
+$B$GI=$5$l$k$@$1$N%l%$%F%$%7$,B8:_$9$k$H2>Dj$7$?!#$3$N%l%$%F%s%7$r4p$K(B
+$B=PNO$9$k:BI8CM$r7W;;$9$k$3$H$G!"F~NO$5$l$k1&2<$N:BI8CM$+$i=PNO$9$k(B
+$B:8>e$N:BI8CM$r5a$a$k$3$H$,$G$-$k!#(B
+\begin{align}
+    \mathrm{LATENCY} = \mathrm{WIDTH} \times (2^\mathrm{LEVEL})+1
+    \label{unpool_outcnt}
+\end{align}
+
+$B$3$N;v$+$i!"(Bunpooling$B%b%8%e!<%k$O!"M-8z2hAG$,F~NO$5$l$?%?%$%_%s%0$G:8>eJ}8~$X$N(B
+$B3HD%$r9T$&F0:n$K$J$C$?$H$$$($k!#$3$l$r4p=`$H$7$F!"B>J}8~$X$N3HD%$KI,MW$J(B
+$B%P%C%U%!$NBg$-$5$r7hDj$9$k!#0J2<$K;D$j$N(B3$BJ}8~$N3HD%$KI,MW$J%P%C%U%!$NBg$-$5$r(B
+LEVEL$B$rMQ$$$?<0$K$h$C$F<($9!#(B
 \begin{itemize}
-\item $B1&>e(B : UppR\_BUF = $2^{\mathrm{LEVEL}}$
-\item $B:82<(B : LowL\_BUF = $2^{\mathrm{LEVEL}} \times$WIDTH($BF~NO2hA|2#I}(B)
-\item $B1&2<(B : LowR\_BUF = UppR\_BUF + LowL\_BUF
+\item $B1&>eJ}8~(B : UppR\_BUF = $2^{\mathrm{LEVEL}}$
+\item $B:82<J}8~(B : LowL\_BUF = $2^{\mathrm{LEVEL}} \times$WIDTH($BF~NO2hA|2#I}(B)
+\item $B1&2<J}8~(B : LowR\_BUF = UppR\_BUF + LowL\_BUF
 \end{itemize}
-\begin{figure}[hbt]
-    \centering
-    \includegraphics[width=0.8\textwidth,clip]{image/unpooling_clock.pdf}
-    \caption{$BM-8z2hAG$N=PNO%?%$%_%s%0$H%P%C%U%!%5%$%:$NJQ2=(B}
-    \label{fig:unpooling_clock}
-\end{figure}
-
-$B2hAG$N=PNO=g$O(B4$BJ}8~$N=[4D$G$O$J$/!"9T$4$H$KF0:n$,(B
-$BM-8z2hAG$,F~NO$5$l$k9T$G$O:8>e!&1&>e2hAG$,!"(B
-$2^\mathrm{LEVEL}\times$WIDTH$B8e$N9T$G$O:82<!&1&2<2hAG$,=PNO$5$l$k!#(B
-$B$=$3$G!"A0CJ$+$i$N%$%M!<%V%k?.9f!"%P%C%U%!J,$N%+%&%s%H!"9TH=Dj$K$h$C$F(B
-$BA+0\$9$k%9%F!<%H%^%7%s$H$7$F$N@_7W$r9T$C$?!#?^(B\ref{fig:unpooling_state}$B$K(B
-$B>uBVA+0\?^$r<($9!#(B
-\begin{figure}[hbt]
-    \centering
-    \includegraphics[width=0.7\textwidth,clip]{image/unpooling_state.pdf}
-    \caption{$B>uBVA+0\?^(B}
-    \label{fig:unpooling_state}
-\end{figure}
-
-$B%$%M!<%V%k?.9f$GA+0\$9$kBT5!>uBV$r=i4|>uBV$H$9$k!#(B
-$B30It$+$i$N%$%M!<%V%k?.9f$K$h$C$F:8>e$KA+0\!#(B
-$B%P%C%U%!MQ$N%a%b%j$K2hAGCM$rEO$7!":8>e$N=PNO$r9T$&!#(B
-$B$=$N8e!"%+%&%s%?$K$h$C$F(BLEVEL$B$K4p$E$/%P%C%U%!J,BT5!$7!"1&>e$KA+0\$9$k!#(B
-$B1&>e$O%a%b%j$+$i2hAGCM$r<u$1$H$j=PNO!#F1$8$/%+%&%s%?$K$h$C$F%P%C%U%!J,BT5!$7!"(B
-$B:8>e$K:F$SA+0\$9$k!#$3$l$r(B1$B9TJ,7+$jJV$9!#$J$*!"9T$N=*N;$b=PNO4V$N(B
-$BBT5!$HF1$8$h$&$K%+%&%s%?$rMQ$$$FH=Dj$7$F$$$k!#(B
-1$B9T=*N;8e!"=PNO9TH=Dj$GA+0\$9$kBT5!>uBV$X$HA+0\$9$k!#(B
-$B$3$3$GMQ$$$k=PNO9TH=Dj$H$O!"(B
-$B:82<!&1&2<2hAG$N=PNO$r3+;O$9$k9T$rH=Dj$9$k$3$H$r;X$7!"(B
-$BH=Dj$K$O(BLEVEL$B$rMQ$$$?!#:8>e!&1&>e2hAG$N=PNO9T$r(B0$B9TL\$H$7$?>l9g!"(B
-$B:82<!&1&2<2hAG$N=PNO9T$O(B$2^\mathrm{LEVEL}$$B9TL\$H$J$k!#$=$3$G!"(B
-1$B9T=*N;$,H=Dj$5$l$?2s?t$rMQ$$$F!"=PNO9TH=Dj$r9T$C$?!#(B
-$B$=$N8e!":82<!&1&2<$b:8>e!&1&>e$HF1MM$K!"(B
-$BA+0\$r7+$jJV$7$J$,$i(B1$B9TJ,$N=PNO$r9T$$!"(B
-1$B9T=*N;8e%$%M!<%V%k?.9f$K$h$C$FA+0\$9$kBT5!>uBV$KLa$k!#(B
-$B?^(B\ref{fig:unpooling_state_image}$B$K(BLEVEL$B$4$H$N>uBVA+0\%$%a!<%8$r<($9!#(B
-$B30It$+$i$NF~NO$N%?%$%_%s%0$G(Bin\_vcnt[0]$B$,JQ2=$7$F$$$k$,!"(B
-$B$3$l$rMxMQ$7$F%+%&%s%H$rF14|$5$;$F$$$k!#(B
-%$B%P%C%U%!%j%s%0$5$l$k9T?t$O(B2$B$N$Y$->h$G$"$k$3$H$+$i!"(B
-%v\_cnt[LEVEL]$B$NCM$,JQ2=$7$?=V4V$,=PNO$5$l$k9T$N3+;OE@$G$"$k!#(B
-%$B?^(B\ref{fig:unpooling_state_image}$B$K(BLEVEL$B$4$H$N>uBVA+0\%$%a!<%8$r(Bv\_cnt$B$NCM$H(B
-%$B$H$b$K<($9!#(Bv\_cnt[LEVEL]$B$NCM$,JQ2=$7$?:]$K=PNO$,3+;O$5$l$F$$$k$N$,3NG'$G$-$k!#(B
-%$B:82<!&1&2<$bF1MM$K!"A+0\$r7+$jJV$7$J$,$i(B1$B9TJ,$N=PNO$r9T$&!#(B
-%$B$=$N8e!"%$%M!<%V%k?.9f$K$h$C$FA+0\$9$kBT5!>uBV$KLa$k!#(B
-
-\begin{figure}[hbt]
-    \centering
-    \includegraphics[width=0.9\textwidth,clip]{image/unpooling_state_image.pdf}
-    \caption{LEVEL$B$4$H$N>uBVA+0\%$%a!<%8(B}
-    \label{fig:unpooling_state_image}
-\end{figure}
-
-$B$^$?!"(Bpooling$B%b%8%e!<%k$HF1MM$K!":BI8CM(B(h\_cnt,v\_cnt)$B$N=PNO$O(B
-$B%5%$%:$NJQ2=$K9g$o$;$FE,@Z$KJQ99$5$l$kI,MW$,$"$k!#(B
-\ref{sec:unpooling}$B@a$G=R$Y$?DL$j!"3F(Bunpooling$B%b%8%e!<%k$N%5%$%:$O(B
-$BF~NO$KBP$7$F$=$l$>$l(B2$BG\$H$J$k$N$G!"E,@Z$JCM$K$h$k2<0L(B1$B%S%C%H$N3HD%$r9T$($P$h$$!#(B
-$B?^(B\ref{fig:unpooling_state_image}$B!"(B
-$BI=(B\ref{tab:unpooling_bit}$B$K3HD%J}8~$K4p$E$/:BI8CM$NJQ99J}K!$r<($9!#(B
+$B$3$l$K$h$j!"$9$Y$F$N3HD%J}8~$KBP$9$kE,@Z$J%P%C%U%!%j%s%0$r@_Dj$9$k$3$H$,$G$-$?!#(B
+$B$3$N%P%C%U%!%j%s%0$5$l$?2hAGCM$H!"=PNO$9$k:BI8CM$K$h$k3HD%J}8~A*Br$rAH$_9g$o$;$k$3$H$K$h$C$F!"8=:_$N%?%$%_%s%0$G=PNO$9$Y$-3HD%J}8~$N2hAGCM$r=PNO$9$k!#(B
+$BI=(B\ref{tab:unpooling_select0}$B$K(BLEVEL0$B$N$H$-!"(B
+$BI=(B\ref{tab:unpooling_selectN}$B$K$=$l0J30$N(B
+$B3HD%J}8~$NA*BrJ}K!$r$=$l$>$l<($9!#(B
 \begin{table}[hbt]
-    \caption{$B3HD%J}8~$K4p$E$/:BI8CM$NJQ99(B}
+    \caption{$B3HD%J}8~A*BrJ}K!!'(BLEVEL0}
     \centering
-    \begin{tabular}{|l||c|c|}
+    \begin{tabular}{|c|c|c|c|}
         \hline
-        &$B:8!'(Bh\_cnt$B$O852hAG$HF1$8(B&$B1&!'(Bh\_cnt$B$O852hAG(B+1\\
+        h\_cnt[0]==0 & h\_cnt[0]==1 & h\_cnt[0]==0 & h\_cnt[0]==1 \\
+        v\_cnt[0]==0 & v\_cnt[0]==0 & v\_cnt[0]==1 & v\_cnt[0]==1 \\
         \hline\hline
-        \multirow{2}{*}{$B>e!'(Bv\_cnt$B$O852hAG$HF1$8(B}& h\_cnt 0$B%S%C%H3HD%(B &h\_cnt 1$B%S%C%H3HD%(B\\
-                                & v\_cnt 0$B%S%C%H3HD%(B &v\_cnt 0$B%S%C%H3HD%(B\\\hline
-        \multirow{2}{*}{$B2<!'(Bv\_cnt$B$O852hAG(B+1} & h\_cnt 0$B%S%C%H3HD%(B & h\_cnt 1$B%S%C%H3HD%(B \\
-                                & v\_cnt 1$B%S%C%H3HD%(B &v\_cnt 1$B%S%C%H3HD%(B\\\hline
+        $B:8>e=PNO(B & $B1&>e=PNO(B & $B:82<=PNO(B & $B1&2<=PNO(B\\\hline 
     \end{tabular}
-    \label{tab:unpooling_bit}
+    \label{tab:unpooling_select0}
 \end{table}
+\begin{table}[hbt]
+    \caption{$B3HD%J}8~A*BrJ}K!!'(B$\mathrm{LEVEL}\neq$0}
+    \centering
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{|c||c|c|c|c|}
+        \hline
+        &h\_cnt[LEVEL]==0 & h\_cnt[LEVEL]==1 & h\_cnt[LEVEL]==0 & h\_cnt[LEVEL]==1 \\
+        &v\_cnt[LEVEL]==0 & v\_cnt[LEVEL]==0 & v\_cnt[LEVEL]==1 & v\_cnt[LEVEL]==1 \\
+        \hline\hline
+        ((\&h\_cnt[LEVEL-1:0])\&\&     &\multirow{2}{*}{$B:8>e=PNO(B} & \multirow{2}{*}{$B1&>e=PNO(B} & \multirow{2}{*}{$B:82<=PNO(B}& \multirow{2}{*}{$B1&2<=PNO(B}\\
+        (\&v\_cnt[LEVEL-1:0]))==1 & & & &     \\\hline
+        otherwise &  \multicolumn{4}{c|}{$B=PNO$J$7(B}\\ \hline   
+    \end{tabular}}
+    \label{tab:unpooling_selectN}
+\end{table}
+
+\ref{sec:system_design}$B@a$G=R$Y$?DL$j!"(Bunpooling$B$N(BLEVEL$B$O=PNO$r4p=`$K@_Dj$5$l$F$$$k!#(B
+$B$=$N$?$a!"=PNO%$%M!<%V%k?.9f$N=PNO$O(Blayer$B%b%8%e!<%k$GMQ$$$?I=(B\ref{tab:layer_enable}$B$K(B
+$B$h$kH=Dj$K$h$C$FF1MM$K7hDj$5$l$k!#(B
+%
+%$B1&>e!":82<!"1&2<$K3HD%$9$k$K$"$?$j!"%P%C%U%!$NBg$-$5$rE,@Z$K7hDj$9$kI,MW$,$"$k$,!"(B
+%$B?^(B\ref{fig:LEVEL_design}$B$K<($9$h$&$K!"(Bunpooling$B$NE,MQ2s?t$K$h$k(B
+%$BM-8z=PNO%?%$%_%s%0$NJQ2=$O5,B'E*$G$"$k$?$a!"E,MQ2s?t$r4p$H$7$?%Q%i%a!<%?$K$h$C$F(B
+%$B%P%C%U%!$NBg$-$5$r7hDj$9$k$3$H$H$7$?!#(B
+%$B$3$N%Q%i%a!<%?$r(BLEVEL$B$H$7!"85!9$NF~NO2hA|$HF1$8%5%$%:$KJQ2=$9$k:]!"(B
+%$B$D$^$jKh%/%m%C%/M-8z2hAG$r=PNO$9$k(B
+%unpooling$B$N(BLEVEL$B$r(B0$B!"0J9_$r(B1...2...$B$H@_Dj$9$k!#(B
+%LEVEL$B$K4p$E$$$F7hDj$5$l$k%P%C%U%!$NBg$-$5$r0J2<$K<($9!#$3$l$K$h$j!"(B
+%unpooling$B%b%8%e!<%k$O%Q%i%a!<%?$H$7$F(BLEVEL$B$r@_Dj$9$k$@$1$G(B
+%$B:F5"E*$JMxMQ$,2DG=$J@_7W$H$J$C$?!#(B
+%\begin{itemize}
+%\item $B1&>e(B : UppR\_BUF = $2^{\mathrm{LEVEL}}$
+%\item $B:82<(B : LowL\_BUF = $2^{\mathrm{LEVEL}} \times$WIDTH($BF~NO2hA|2#I}(B)
+%\item $B1&2<(B : LowR\_BUF = UppR\_BUF + LowL\_BUF
+%\end{itemize}
+%%\begin{figure}[hbt]
+%%    \centering
+%%    \includegraphics[width=0.8\textwidth,clip]{image/unpooling_clock.pdf}
+%%    \caption{$BM-8z2hAG$N=PNO%?%$%_%s%0$H%P%C%U%!%5%$%:$NJQ2=(B}
+%%    \label{fig:unpooling_clock}
+%%\end{figure}
+%
+%$B2hAG$N=PNO=g$O(B4$BJ}8~$N=[4D$G$O$J$/!"9T$4$H$KF0:n$,(B
+%$BM-8z2hAG$,F~NO$5$l$k9T$G$O:8>e!&1&>e2hAG$,!"(B
+%$2^\mathrm{LEVEL}\times$WIDTH$B8e$N9T$G$O:82<!&1&2<2hAG$,=PNO$5$l$k!#(B
+%$B$=$3$G!"A0CJ$+$i$N%$%M!<%V%k?.9f!"%P%C%U%!J,$N%+%&%s%H!"9TH=Dj$K$h$C$F(B
+%$BA+0\$9$k%9%F!<%H%^%7%s$H$7$F$N@_7W$r9T$C$?!#?^(B\ref{fig:unpooling_state}$B$K(B
+%$B>uBVA+0\?^$r<($9!#(B
+%\begin{figure}[hbt]
+%    \centering
+%    \includegraphics[width=0.7\textwidth,clip]{image/unpooling_state.pdf}
+%    \caption{$B>uBVA+0\?^(B}
+%    \label{fig:unpooling_state}
+%\end{figure}
+%
+%$B%$%M!<%V%k?.9f$GA+0\$9$kBT5!>uBV$r=i4|>uBV$H$9$k!#(B
+%$B30It$+$i$N%$%M!<%V%k?.9f$K$h$C$F:8>e$KA+0\!#(B
+%$B%P%C%U%!MQ$N%a%b%j$K2hAGCM$rEO$7!":8>e$N=PNO$r9T$&!#(B
+%$B$=$N8e!"%+%&%s%?$K$h$C$F(BLEVEL$B$K4p$E$/%P%C%U%!J,BT5!$7!"1&>e$KA+0\$9$k!#(B
+%$B1&>e$O%a%b%j$+$i2hAGCM$r<u$1$H$j=PNO!#F1$8$/%+%&%s%?$K$h$C$F%P%C%U%!J,BT5!$7!"(B
+%$B:8>e$K:F$SA+0\$9$k!#$3$l$r(B1$B9TJ,7+$jJV$9!#$J$*!"9T$N=*N;$b=PNO4V$N(B
+%$BBT5!$HF1$8$h$&$K%+%&%s%?$rMQ$$$FH=Dj$7$F$$$k!#(B
+%1$B9T=*N;8e!"=PNO9TH=Dj$GA+0\$9$kBT5!>uBV$X$HA+0\$9$k!#(B
+%$B$3$3$GMQ$$$k=PNO9TH=Dj$H$O!"(B
+%$B:82<!&1&2<2hAG$N=PNO$r3+;O$9$k9T$rH=Dj$9$k$3$H$r;X$7!"(B
+%$BH=Dj$K$O(BLEVEL$B$rMQ$$$?!#:8>e!&1&>e2hAG$N=PNO9T$r(B0$B9TL\$H$7$?>l9g!"(B
+%$B:82<!&1&2<2hAG$N=PNO9T$O(B$2^\mathrm{LEVEL}$$B9TL\$H$J$k!#$=$3$G!"(B
+%1$B9T=*N;$,H=Dj$5$l$?2s?t$rMQ$$$F!"=PNO9TH=Dj$r9T$C$?!#(B
+%$B$=$N8e!":82<!&1&2<$b:8>e!&1&>e$HF1MM$K!"(B
+%$BA+0\$r7+$jJV$7$J$,$i(B1$B9TJ,$N=PNO$r9T$$!"(B
+%1$B9T=*N;8e%$%M!<%V%k?.9f$K$h$C$FA+0\$9$kBT5!>uBV$KLa$k!#(B
+%$B?^(B\ref{fig:unpooling_state_image}$B$K(BLEVEL$B$4$H$N>uBVA+0\%$%a!<%8$r<($9!#(B
+%$B30It$+$i$NF~NO$N%?%$%_%s%0$G(Bin\_vcnt[0]$B$,JQ2=$7$F$$$k$,!"(B
+%$B$3$l$rMxMQ$7$F%+%&%s%H$rF14|$5$;$F$$$k!#(B
+%%$B%P%C%U%!%j%s%0$5$l$k9T?t$O(B2$B$N$Y$->h$G$"$k$3$H$+$i!"(B
+%%v\_cnt[LEVEL]$B$NCM$,JQ2=$7$?=V4V$,=PNO$5$l$k9T$N3+;OE@$G$"$k!#(B
+%%$B?^(B\ref{fig:unpooling_state_image}$B$K(BLEVEL$B$4$H$N>uBVA+0\%$%a!<%8$r(Bv\_cnt$B$NCM$H(B
+%%$B$H$b$K<($9!#(Bv\_cnt[LEVEL]$B$NCM$,JQ2=$7$?:]$K=PNO$,3+;O$5$l$F$$$k$N$,3NG'$G$-$k!#(B
+%%$B:82<!&1&2<$bF1MM$K!"A+0\$r7+$jJV$7$J$,$i(B1$B9TJ,$N=PNO$r9T$&!#(B
+%%$B$=$N8e!"%$%M!<%V%k?.9f$K$h$C$FA+0\$9$kBT5!>uBV$KLa$k!#(B
+%
+%\begin{figure}[hbt]
+%    \centering
+%    \includegraphics[width=0.9\textwidth,clip]{image/unpooling_state_image.pdf}
+%    \caption{LEVEL$B$4$H$N>uBVA+0\%$%a!<%8(B}
+%    \label{fig:unpooling_state_image}
+%\end{figure}
+%
+%$B$^$?!"(Bpooling$B%b%8%e!<%k$HF1MM$K!":BI8CM(B(h\_cnt,v\_cnt)$B$N=PNO$O(B
+%$B%5%$%:$NJQ2=$K9g$o$;$FE,@Z$KJQ99$5$l$kI,MW$,$"$k!#(B
+%\ref{sec:unpooling}$B@a$G=R$Y$?DL$j!"3F(Bunpooling$B%b%8%e!<%k$N%5%$%:$O(B
+%$BF~NO$KBP$7$F$=$l$>$l(B2$BG\$H$J$k$N$G!"E,@Z$JCM$K$h$k2<0L(B1$B%S%C%H$N3HD%$r9T$($P$h$$!#(B
+%$B?^(B\ref{fig:unpooling_state_image}$B!"(B
+%$BI=(B\ref{tab:unpooling_bit}$B$K3HD%J}8~$K4p$E$/:BI8CM$NJQ99J}K!$r<($9!#(B
+%\begin{table}[hbt]
+%    \caption{$B3HD%J}8~$K4p$E$/:BI8CM$NJQ99(B}
+%    \centering
+%    \begin{tabular}{|l||c|c|}
+%        \hline
+%        &$B:8!'(Bh\_cnt$B$O852hAG$HF1$8(B&$B1&!'(Bh\_cnt$B$O852hAG(B+1\\
+%        \hline\hline
+%        \multirow{2}{*}{$B>e!'(Bv\_cnt$B$O852hAG$HF1$8(B}& h\_cnt 0$B%S%C%H3HD%(B &h\_cnt 1$B%S%C%H3HD%(B\\
+%                                & v\_cnt 0$B%S%C%H3HD%(B &v\_cnt 0$B%S%C%H3HD%(B\\\hline
+%        \multirow{2}{*}{$B2<!'(Bv\_cnt$B$O852hAG(B+1} & h\_cnt 0$B%S%C%H3HD%(B & h\_cnt 1$B%S%C%H3HD%(B \\
+%                                & v\_cnt 1$B%S%C%H3HD%(B &v\_cnt 1$B%S%C%H3HD%(B\\\hline
+%    \end{tabular}
+%    \label{tab:unpooling_bit}
+%\end{table}
 %
 %$B%P%C%U%!%j%s%0$NBg$-$5$O<+?H$NF0:n2s?t$K$h$C$F7hDj$5$l$k!#(B
 %$B?^(B\ref{fig:unpooling_level}$B$N$h$&$K!"F0:n2s?t$,B?$$$[$I%P%C%U%!%j%s%0$O>.$5$/!"(B
@@ -285,12 +453,20 @@ $2^\mathrm{LEVEL}\times$WIDTH$B8e$N9T$G$O:82<!&1&2<2hAG$,=PNO$5$l$k!#(B
 %$B$h$C$F%9%H%j!<%`=hM}$,Jx$l$k$3$H$O$J$$!#(B
 %
 \subsection{buf$B%b%8%e!<%k(B}
-buf$B%b%8%e!<%k$O!"(BItgNet$B%b%8%e!<%k$,<u$1<h$k(Bunpooling$B$+$i$N=PNO$H(B
-$B%W!<%j%s%0AXE,MQA0$NFCD'%^%C%W$rBP1~IU$1$k5!G=$r;}$D!#(B
+\label{sec:buf}
+buf$B%b%8%e!<%k$O!"(BItgNet$B%b%8%e!<%k$,<u$1<h$k(Bunpooling$B%b%8%e!<%k$+$i$N=PNO$H(B
+pooling$BAXE,MQA0$NFCD'%^%C%W$rBP1~IU$1$k5!G=$r;}$D!#(B
 $BDL>o$J$i$P!"$=$l$>$l$NFCD'%^%C%W=PNO$KI,MW$J%l%$%F%s%7$N:9J,$r5a$a!"(B
 $B:9J,$@$1%P%C%U%!%j%s%0$5$;$k$3$H$G=PNO$N%?%$%_%s%0$r9g$o$;$k$N$,0lHLE*$G$"$k!#(B
-$B$7$+$7!"K\%7%9%F%`$O%U%#%k%?1i;;$r;O$a$H$9$k=hM}$N:90[$,B?$/!"(B
-$B%l%$%F%s%7$N:9J,$r@53N$K5a$a$k$N$,:$Fq$G$"$k!#(B
+
+$B0lJ}$G!"K\8&5f$K$*$1$k<BAu$O%K%e!<%m%s?t$d%M%C%H%o!<%/CJ?t$J$I!"(B
+$B%Q%i%a!<%?$K$h$k%M%C%H%o!<%/JQ99$,2DG=$J@_7W$,$5$l$F$$$k!#(B
+$B$3$l$O%M%C%H%o!<%/$N2~NI$KBP$7$F=@Fp$KBP1~$9$k$?$a$N@_7W$G$"$k$,!"(B
+$B%l%$%F%s%7$N:9J,$@$1%P%C%U%!%j%s%0$9$kJ}K!$G$O!"(B
+$B%Q%i%a!<%?$K$h$k%M%C%H%o!<%/JQ99$r9T$&EY$K(B
+$B%l%$%F%s%7$r@53N$K5a$a$kI,MW$,$"$j!"HQ;($J@_7W$,5a$a$i$l$k!#(B
+%$B%U%#%k%?1i;;$r;O$a$H$9$k=hM}$N:90[$,B?$/!"(B
+%$B%l%$%F%s%7$N:9J,$r@53N$K5a$a$k$N$,:$Fq$G$"$k!#(B
 $B$=$3$G!"2hA|(B1$BKgJ,$N%a%b%j$r3NJ]$7!":BI8CM(B(h\_cnt,v\_cnt)$B$K4p$E$/%"%I%l%9$K(B
 $B$h$C$FBP1~IU$1$k$3$H$H$7$?!#?^(B\ref{fig:buf_address}$B$K(Bbuf$B%b%8%e!<%k$N@_7W$r<($9!#(B
 \begin{figure}[hbt]
@@ -300,9 +476,12 @@ buf$B%b%8%e!<%k$O!"(BItgNet$B%b%8%e!<%k$,<u$1<h$k(Bunpooling$B$+$i$N=PNO$H
     \label{fig:buf_address}
 \end{figure}
 
-\noindent out\_hcnt,\ out\_vcnt$B$O3F(BItgNet$B%b%8%e!<%kA0CJ$N(Bunpoling$B%b%8%e!<%k$N=PNO$,EO$5$l$k!#(B
+out\_hcnt,\ out\_vcnt$B$O3F(BItgNet$B%b%8%e!<%kA0CJ$N(Bunpooling$B%b%8%e!<%k$N=PNO$,EO$5$l$k!#(B
 $B$3$l$K$h$j!"(Bunpooling$B%b%8%e!<%k$+$i$N2hAGCM$HF1$8:BI8CM$r;}$D(B
 pooling$BA0$N2hAGCM$rBP1~IU$1$k$3$H$,$G$-$?!#(B
+$B$?$@$7!"$3$N<BAuJ}K!$O0lHLE*$J%P%C%U%!%j%s%0$K$h$k<BAuJ}K!$KHf$Y$F(B
+$B;q8;;HMQNL$,A}2C$9$k$3$H$,M=A[$5$l$k!#(B\ref{sec:kosatsu}$B@a$G(B
+$B%P%C%U%!%j%s%0$KI,MW$J;q8;NL$H<B:]$N;q8;;HMQNL$rHf3S$7$?9M;!$r9T$&$3$H$H$9$k!#(B
 
 
 %$B$3$N@_7W$O!"@53N$J%l%$%F%s%7J,$@$1%P%C%U%!%j%s%0$5$;$k$b$N$KHf$Y$F!"(B

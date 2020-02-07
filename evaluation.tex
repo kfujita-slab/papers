@@ -1,35 +1,229 @@
 \chapter{評価と考察}
+本章では、設計・実装したセマンティックセグメンテーションシステムの
+性能を、資源使用量、最大動作周波数、レイテンシの観点から評価する
+とともに、それらに関する考察を行う。
 \section{評価}
-\section{考察}
-%関連論文\cite{sample}.
-
-図の参照、図\ref{fig:yoshiki}
-
-表の参照、表\ref{tab:sample}
-
-\begin{figure}[hbt]
-    \centering
-    \includegraphics[scale=1.0,clip]{image/yoshiki_nico.jpg}
-    \caption{Sample図}
-    \label{fig:yoshiki}
-\end{figure}
-
-
+評価にはvivadoによる論理合成結果と、計算によって求められるレイテンシ
+を用いた。また、レイテンシ計算結果の正確度を検証するためverilogシミュレーションであるxmverilogを利用する。
+ネットワーク構成は図\ref{fig:segment_soft}に示す通りであり、$n=12$とした。
+$n$の値はソフトウェアによる実装において良好な結果が得られたときの値を採用している。
+\subsection{資源使用量}
+論理合成によって得られた資源使用量を表\ref{tab:shiyou}に示す。
+なお、DSP・BRAMについては最大限利用して合成を行うよう設定し、
+溢れた分は他の資源を用いて合成される。DSPは主に固定小数の乗算に、
+、BRAMは主にFIFOを始めとするメモリに用いられる。
 \begin{table}[hbt]
-    \caption{Sample表}
+    \caption{資源使用量}
     \centering
-    \begin{tabular}{|c||c|c|c|c|c|}
-        \hline
-        & XXX & XX & XXXXX & XXXX & XXXX\\
+    \resizebox{100mm}{!}{
+    \begin{tabular}{crrr}
         \hline\hline
-        XXXX     & xxx & xxx & xxxx & xx & xx \\\hline
-        XXXXX & xxx & xxx & xxxx & xx & xx \\\hline   
+        資源    &\multicolumn{1}{c}{使用量}  & \multicolumn{1}{c}{使用可能} &\multicolumn{1}{c}{割合}     \\\hline
+        LUT     & 2302985 &   537600 & 428.58\% \\\hline
+        LUT-RAM &  140369 &    76800 & 182.77\% \\\hline
+        FF      & 1732778 &  1075200 & 161.16\% \\\hline
+        BRAM    &    1715 &     1728 &  99.25\% \\\hline
+        DSP     &     752 &      768 &  97.92\% \\\hline
+        CARRYs  & 306272  &    67200 & 455.76\% \\\hline
     \end{tabular}
-    \label{tab:sample}
+    }
+    \label{tab:shiyou}
 \end{table}
 
+\subsection{最大動作周波数}
+最大動作周波数は、vivadoによる論理合成を行った際に生成される
+Report Timing Summaryを利用する。
+論理合成段階での判定であるため、
+配置配線の結果によって変動する可能性のある値ではあるが、
+動作可能周波数の目安としては十分であると判断し、評価に利用した。
 
+入力されるクロックを10ns\ (100MHz)としたときの、Report Timing Summary
+から得られたWorst Nagarive Slack (WNS)は5.111nsであった。
+よって、論理合成時点での最大動作周波数は204.54MHzとなる。
+%から得られたWorst Nagarive Slack (WNS)とともに、
+%そこから求められる最大動作周波数と、
+100MHz、最大動作周波数でそれぞれ駆動させたときのfps
+を表\ref{tab:WNS}に示す。
+なお、入出力画像のサイズは\ref{sec:algorithm}節と同じく
+$640\times512$を想定する。
+\begin{table}[hbt]
+    \caption{動作周波数とfps}
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        動作周波数& 100.00MHz &204.54MHz\\
+        \hline
+        fps       & 305.17fps &597.21fps\\
+        \hline
+    \end{tabular}
+    \label{tab:WNS}
+\end{table}
 
+\subsection{レイテンシ}
+システム全体のレイテンシ、つまり画素の入力から
+対応した出力が行われるまでの経過クロック数は、
+完全ストリーム処理である本実装では各モジュールのレイテンシの
+総和で求めることができ、実行中に変化することもない。
 
+本システムにおいて最もレイテンシを増加させる原因となりうるのは
+フィルタ適用である。
+注目画素をフィルタの中心画素とした場合、結果が出力されるには
+右下画素の入力を待つ必要があり、フィルタ適用1回ごとに少なくとも
+画像横幅分のレイテンシが必要となる。
+さらに、本実装では有効画素の入力タイミングが変化することで、
+右下画素の入力を待つのに必要なクロックは指数関数的に増加する。
+図\ref{fig:LATENCY_gaizan}に各フィルタ適用に要する
+クロックを行単位で示す。実際にはニューロン数の違いなどで
+各フィルタ処理に必要なレイテンシは細かく変化する。
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.8\textwidth,clip]{image/LATENCY_gaizan.pdf}
+    \caption{フィルタ適用に要するレイテンシの概算(行)}
+    \label{fig:LATENCY_gaizan}
+\end{figure}
 
+図\ref{fig:LATENCY_gaizan}より、全体のレイテンシにおいて
+大きな割合を占めるであろうフィルタ処理に必要なレイテンシは、
+約139行分であることが概算的に求められた。
+これを踏まえ、verilogシミュレーションであるxmverilogによって、
+全体のレイテンシを検証する。
+simvisionによる結果は、図\ref{fig:LATENCY_shot}の通りとなった。
+また、波形表示にはsimvisionを利用している。
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=\textwidth,clip]{image/LATENCY_screen.png}
+    \caption{シミュレーションによるレイテンシ解析}
+    \label{fig:LATENCY_shot}
+\end{figure}
+end\_hcnt=0, end\_vcnt=0地点が最初の出力である。
+入力の座表値に対し$154\mathrm{行}+57$クロック分のレイテンシを経て出力されている
+ことが読み取れる。
+概算で求めた行数に対し約15行分の差異が存在するが、
+フィルタ処理以外の操作に必要なレイテンシを鑑みた場合
+約15行分の差異は妥当であり、
+シミュレーションによって
+解析されたレイテンシの信頼性は高いと言える。
+
+\section{考察}
+\subsection{現在の実装に対する評価について}
+\label{kosatsu_now}
+表\ref{tab:shiyou}から分かる通り、
+ほとんどの資源において資源使用量が使用可能量を超えているため、
+現在の実装では1台のFPGAに配置配線することが不可能である。
+特に、LUTとCARRYsの使用量の割合が高く400\%を超えているが、
+これは固定小数乗算のために合成される大量の乗算器によるものが大半である。
+表\ref{tab:Net_shiyou}に、各Netモジュールの各資源使用量を示す。
+なお、RdcNet・ItgNetに関しては、
+FIFOに用いるためのLUT\_RAM以外において、4つのネットワークでの資源使用量の差は
+あまり見られないため、
+それぞれLEVEL1における使用量を示している。
+
+\begin{table}[hbt]
+    \caption{各Netモジュールにおける資源使用量}
+    \centering
+    \resizebox{100mm}{!}{
+    \begin{tabular}{crrrr}
+        \hline\hline
+        資源    &\multicolumn{1}{c}{ExtNet}  & \multicolumn{1}{c}{RdcNet} &\multicolumn{1}{c}{ItgNet} &\multicolumn{1}{c}{1$\times$1conv}     \\\hline
+        LUT     &21497&256177&296603&1738 \\\hline
+        DSP     &161  &36    &106   &21   \\\hline
+        CARRYs  &25932&32091 &37773 &226  \\\hline
+    \end{tabular}
+    }
+    \label{tab:Net_shiyou}
+\end{table}
+
+しかし、本システムは完全ストリーム処理が可能な実装となっており、
+モジュール間で渡される情報は、1クロックにつき1画素分の画素値・座標値・1bitの信号
+のみである。
+そのため、複数台のFPGAを接続することによる実装は理論上可能であり、
+FPGA間でのデータの受け渡しにかかるレイテンシも、そのデータ量から
+性能を格段に低下させるほどではないと予想される。
+複数台での実装が可能となれば、本システムは仮に100MHzで駆動したとしても、
+305.17fpsを達成し、かつ
+約$9.8617\times10^{-4}$という低レイテンシでの動作が可能である。
+
+また、\ref{sec:buf}節で述べた、bufモジュールの実装方法によるメモリの増加
+についてだが、シミュレーションの結果、
+単純なバッファリングによる実装に必要なレイテンシは
+LEVEL0におけるbufモジュールで約148行分であった。
+よって、必要なFIFOのメモリサイズは、画像1枚分のメモリを確保
+している現在の実装に比べて3分の1以下に抑えることができる。
+BRAMの使用量はbufモジュールで占められているため、
+現在オーバーしているBRAM・LUT-RAMの使用量に関しては、
+バッファリングによる実装に変更することによって
+1台分の資源量に抑えられる可能性がある。
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=\textwidth,clip]{image/buf.png}
+    \caption{bufモジュールに必要なFIFOサイズ}
+    \label{fig:buf_LATENCY}
+\end{figure}
+
+\subsection{1台のFPGAによる実装に向けて}
+%\ref{sec:kosatsu_now}節では、複数台のFPGAによる実装は可能である
+%という旨について触れたが、
+本項では、1台のFPGAによる実装を目的として資源使用量の削減を行う場合、
+どのような軽量化手法が効果的なのか考察を行う。
+
+まず考えられるのはネットワーク規模の削減である。
+特に、各層におけるニューロンの数と乗算数は指数関数の関係にあり、
+ニューロン数を減少させることで資源量の大幅な削減が見込める。
+%各層におけるニューロンの数を$n=4$としたときの資源使用量を表\ref{tab:neuron4}
+%に示す。
+しかし、ネットワーク構成の大規模な変更はネットワークの出力精度に
+大きく影響し、目的とする機能を構築できなくなる可能性が高い。
+そのため、ネットワーク構成の変更による資源使用量削減は、
+出力精度の観点から現実的でないといえる。
+
+次に考えられるのは、本プロジェクトにおけるネットワークの特徴ともいえる、
+小規模ネットワークの再帰的利用に着目した削減方法である。
+LEVELが低くなるにつれ、有効画素が入力されるタイミングは減少し、
+それに伴って乗算器が動作しなければならないクロックも減少する。
+そこで、乗算器が動作しないタイミングでは後段のネットワークとして動作
+することで、ItgNetにおいては2つ、RdcNetにおいては1つの
+ネットワークのみで全体の処理が可能となる。
+これは、表\ref{tab:Net_shiyou}に示した通り各Netモジュールが
+全体の資源使用量を占める本実装において、効果的な削減手法といえる。
+
+資源使用量増加の原因である乗算の削減方法としては、
+重みパラメータの量子化が挙げられる。
+ここで用いる量子化とは、一般的に用いられることの多い
+連続的な値を離散的な値に変換するという意味ではなく、
+値の表現bit数の削減、特に1bitでの表現に変換することを指す。
+重みを1bitで表した場合、パラメータに用いるメモリ使用量が削減されるうえ、
+積和演算が単純なビット演算で行えるようになり、乗算器の大幅な削減となる。
+量子化ニューラルネットワーク手法は、
+2015年のBinaryConnect\cite{binary}を皮切りとして様々な方法が提案されているが、
+小さいネットワークでは良好な結果が得られるものの、
+一般的なネットワークでは精度低下を引き起こしてしまうのが現状である。
+そのため、本システムを量子化ニューラルネットワークとして実装する場合、
+効果的な量子化手法の検証が重要になると考えられる。
+
+%関連論文\cite{sample}.
+
+%図の参照、図\ref{fig:yoshiki}
+%
+%表の参照、表\ref{tab:sample}
+%
+%\begin{figure}[hbt]
+%    \centering
+%    \includegraphics[scale=1.0,clip]{image/yoshiki_nico.jpg}
+%    \caption{Sample図}
+%    \label{fig:yoshiki}
+%\end{figure}
+%
+%
+%\begin{table}[hbt]
+%    \caption{Sample表}
+%    \centering
+%    \begin{tabular}{|c||c|c|c|c|c|}
+%        \hline
+%        & XXX & XX & XXXXX & XXXX & XXXX\\
+%        \hline\hline
+%        XXXX     & xxx & xxx & xxxx & xx & xx \\\hline
+%        XXXXX & xxx & xxx & xxxx & xx & xx \\\hline   
+%    \end{tabular}
+%    \label{tab:sample}
+%\end{table}
 

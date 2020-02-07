@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.47 r22583"
-   sodipodi:docname="segment_soft.svg">
+   sodipodi:docname="segment_soft.pdf">
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -150,7 +150,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -645,7 +645,7 @@
          y="2875.7803"
          x="-768.12817"
          id="tspan8839"
-         sodipodi:role="line">2×2 upscale</tspan></text>
+         sodipodi:role="line">2×2 unpooling</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:70.00000763px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
@@ -655,7 +655,7 @@
          sodipodi:role="line"
          id="tspan2919"
          x="1235"
-         y="2513.3623">Ext (Extraction)</tspan></text>
+         y="2513.3623">Ext (Extract)</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:70.00000763px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
