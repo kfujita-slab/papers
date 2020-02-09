@@ -10,7 +10,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="2876.3643"
-   height="1721.0001"
+   height="1746.4406"
    id="svg2"
    version="1.1"
    inkscape:version="0.47 r22583"
@@ -22,12 +22,12 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35355339"
-     inkscape:cx="2385.7663"
-     inkscape:cy="947.96168"
+     inkscape:zoom="0.25"
+     inkscape:cx="861.8869"
+     inkscape:cy="833.76642"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:window-width="1920"
      inkscape:window-height="1003"
      inkscape:window-x="0"
@@ -610,72 +610,74 @@
        style="fill:none;stroke:#00ff00;stroke-width:3.35695624;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow2LendY)" />
     <path
        style="fill:none;stroke:#0000ff;stroke-width:3.35695624;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow2LendI)"
-       d="m -959.29589,2757.4546 134.2782,0"
-       id="path8433" />
+       d="m -894.39492,2716.1677 0,99.2782"
+       id="path8433"
+       sodipodi:nodetypes="cc" />
     <path
        style="fill:none;stroke:#ff0000;stroke-width:3.35695624;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow2LendE)"
-       d="m -959.29589,2858.1633 134.2782,0"
-       id="path8631" />
+       d="m -893.65897,2937.1243 -0.73595,-90.9566"
+       id="path8631"
+       sodipodi:nodetypes="cc" />
     <text
        xml:space="preserve"
        style="font-size:55.02069092px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       x="-765"
+       x="-767.32446"
        y="2673.3623"
        id="text8829"><tspan
          sodipodi:role="line"
          id="tspan8831"
-         x="-765"
+         x="-767.32446"
          y="2673.3623">concatenate</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:52.4224968px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       x="-765.75452"
-       y="2776.0837"
+       x="-774.3949"
+       y="2796.1677"
        id="text8833"><tspan
          sodipodi:role="line"
          id="tspan8835"
-         x="-765.75452"
-         y="2776.0837">2×2 max pooling</tspan></text>
+         x="-774.3949"
+         y="2796.1677">2×2 max pooling</tspan></text>
     <text
        id="text8837"
-       y="2875.7803"
-       x="-768.12817"
+       y="2906.1677"
+       x="-774.3949"
        style="font-size:52.4224968px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
        xml:space="preserve"><tspan
-         y="2875.7803"
-         x="-768.12817"
+         y="2906.1677"
+         x="-774.3949"
          id="tspan8839"
          sodipodi:role="line">2×2 unpooling</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:70.00000763px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       x="1235"
-       y="2513.3623"
+       x="1145.6051"
+       y="2616.1677"
        id="text2917"><tspan
          sodipodi:role="line"
          id="tspan2919"
-         x="1235"
-         y="2513.3623">Ext (Extract)</tspan></text>
+         x="1145.6051"
+         y="2616.1677">Ext (Extract)</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:70.00000763px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       x="1235"
-       y="2653.3623"
+       x="1145.6051"
+       y="2756.1677"
        id="text2921"><tspan
          sodipodi:role="line"
          id="tspan2923"
-         x="1235"
-         y="2653.3623">Rdc (Reduce)</tspan></text>
+         x="1145.6051"
+         y="2756.1677">Rdc (Reduce)</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:70.00000763px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       x="1235"
-       y="2793.3623"
+       x="1145.6051"
+       y="2896.1677"
        id="text2925"><tspan
          sodipodi:role="line"
          id="tspan2927"
-         x="1235"
-         y="2793.3623">Itg (Integrate)</tspan></text>
+         x="1145.6051"
+         y="2896.1677">Itg (Integrate)</tspan></text>
     <path
        style="fill:#fc9c00;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        d="m 525.77201,979.79645 0,-159.80614 18.38477,0 18.38478,0 0,159.80614 0,159.80615 -18.38478,0 -18.38477,0 0,-159.80615 z"

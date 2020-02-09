@@ -22,7 +22,7 @@
 
 \begin{figure}[hbt]
     \centering
-    \includegraphics[width=0.94\textwidth,clip]{image/segment_soft.pdf}
+    \includegraphics[width=0.9\textwidth,clip]{image/segment_soft.pdf}
     \caption{ネットワーク全体図}
     \label{fig:segment_soft}
 \end{figure}
@@ -33,7 +33,7 @@
 である。poolingによる縮小とRdcネットワークの適用を再帰的に繰り返すことで、
 低次元への特徴マップの集約を行い、大域の情報を利用できるようにする。
 最下層に到達した後、unpoolingによる拡張が
-行われ、縮小処理を経ていない特徴マップと共にItgという小規模ネットワークに渡される。
+行われ、前段から直接渡される同じサイズの特徴マップと共にItgという小規模ネットワークに渡される。
 よってItgの入力は$2n$チャネル、出力は$n$チャネルである。
 unpoolingによる拡張と前段の特徴マップの統合によって、
 pooling層で失われた位置情報の復元を狙う。
@@ -59,8 +59,8 @@ pooling層で失われた位置情報の復元を狙う。
 各層でパディングが行われている。
 活性化関数には、式\ref{LeakyReLU}に示すLeaky ReLU\cite{Leaky_ReLU}を用いる。
 Leaky ReLUを用いる理由だが、式\ref{ReLU}に示したReLUは
-いかなる負の入力に対しても0を出力するため、学習が進むにつれて
-絶対値の大きい負数が出力されることがある。
+いかなる負の入力に対しても0を出力するため、学習が進むにつれて演算途中に
+絶対値の大きい負数が現れることがある\cite{ReLUD}。
 本研究ではハードウェア化にあたり固定小数点演算を採用していることから、
 この現象は演算に必要なビット幅の増大や演算精度の低下につながる。
 一方Leaky ReLUは、負領域においても0でない重み$a$を持つため、この問題を緩和できる。
@@ -118,7 +118,9 @@ $2\times2$ max poolingを適用する。
 本システムのunpooling層で行われている処理は
 図\ref{fig:unpooling}とは異なり、
 値を周辺画素に転写する処理となっているため、
-位置情報を記憶する必要はない。pooling層を経ていない特徴マップとサイズを一致させるには、
+位置情報を記憶する必要はない。
+言い換えれば、ニアレストネイバー法による拡大と同じである。
+pooling層を経ていない特徴マップとサイズを一致させるには、
 \ref{sec:conv}節で述べたように
 縦横のサイズを2倍にすればよい。
 また、\ref{sec:net_design}節で述べたように、unpooling層の適用はpooling層の適用と
@@ -136,7 +138,7 @@ unpooling層の動作を図\ref{fig:unpooling_design}に示す。
 \section{学習}
 \subsection{ツール}
 学習には、Python上で動作するニューラルネットワーク向けフレームワーク
-であるChainer5.3.0\ \cite{Chainer}を用いる。Chainerでは、複雑なデータ構造を
+であるChainer\ 5.3.0\ \cite{Chainer}を用いる。Chainerでは、複雑なデータ構造を
 簡潔な記述で構築でき、CUDAによるGPUを用いた高速な学習も可能である。
 また、学習および評価における各処理には、数値計算ライブラリのNumpyや、画像処理
 ライブラリのOpenCVを用いる。
