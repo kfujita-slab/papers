@@ -1,7 +1,7 @@
 \section{$B@_7W$H<BAu(B}
 \label{rtl_design_top}
 \ref{sec:algorithm}$B@a$G@bL@$7$?%7%9%F%`$N%O!<%I%&%'%"2=$K$"$?$j!"(B
-$B30It$+$i$NF~NO2hA|$O!"=g<!Av::$K$h$j?eJ?$*$h$S?bD>:BI8(B(h\_cnt,v\_cnt)$B$H6&$K2hAGCM(B(in\_pixel)$B$N%9%H%j!<%`$H$7$FM?$($i$l$k$3$H$rA[Dj$9$k!#(B
+$B30It$+$i$NF~NO2hA|$O!"=g<!Av::$K$h$j?eJ?$*$h$S?bD>:BI8(B(hcnt,vcnt)$B$H6&$K2hAGCM(B(in\_pixel)$B$N%9%H%j!<%`$H$7$FM?$($i$l$k$3$H$rA[Dj$9$k!#(B
 $B$=$l$KH<$$!"=PNO$O:BI8$H6&$K(B4$B<oN`$N%/%i%9%i%Y%k$,(B1$B2hAG$:$DJV$5$l$k!#(B
 
 FPGA$B$X$N<BAu$O!"(BVerilog HDL$B$rMQ$$$?(BRTL$B5-=R$K$F9T$C$?!#(B
@@ -62,12 +62,12 @@ stream\_patch$B%b%8%e!<%kFb$GMQ$$$i$l$F$$$k%P%C%U%!MQ$N%a%b%j$O!"(B
 Vivado$B$KAH$_9~$^$l$?(BIP$B%+%?%m%0$K$h$j@8@.$5$l$?%7%s%W%k%G%e%"%k%]!<%H%a%b%j$G$"$k!#(B
 $B$3$N%a%b%j$O=q$-9~$_%$%M!<%V%k$rF~NO$K;}$D$?$a!"(B
 0$B$rF~NO$9$k$3$H$G?^(B\ref{fig:stream_patch}$B$K<($7$?(BFIFO$B$rDd;_$5$;$k$3$H$,$G$-$k!#(B
-$B$h$C$F!"I,MW$H$J$k(BFIFO$B%5%$%:$O(B1$B9T$"$?$j$NM-8z2hAG?t$H$J$j!"(BLEVEL$B$rMQ$$$?(B
-$B<0(B\ref{LEVEL_WIDTH}$B$K$h$C$F7hDj$5$l$k!#(B
+$B$h$C$F!"I,MW$H$J$k(BFIFO$B%5%$%:$O(B1$B9T$"$?$j$NM-8z2hAG?t$H$J$j!"(B
+$B2hA|2#I}(B(WIDTH)$B$H(BLEVEL$B$rMQ$$$?<0(B\ref{LEVEL_WIDTH}$B$K$h$C$F7hDj$5$l$k!#(B
 $BM-8z2hAG0J30$r%a%b%j$K3JG<$9$kI,MW$,$J$$$?$a!"%$%M!<%V%k@)8f$rMQ$$$:$K(B
-FIFO$B$rDd;_$5$;$J$$<BAu$KHf$Y$F!";q8;$N>CHqNL$b>/$J$$!#(B
+FIFO$B$rDd;_$5$;$J$$<BAu$KHf$Y;q8;$N>CHqNL$,>/$J$$!#(B
 \begin{align}
-    \mathrm{FIFO$B%5%$%:(B} = \mathrm{WIDTH($B2hA|2#I}(B)}\div2^{\mathrm{LEVEL}}
+    \mathrm{FIFO$B%5%$%:(B} = \mathrm{WIDTH}\div2^{\mathrm{LEVEL}}
     \label{LEVEL_WIDTH}
 \end{align}
 %$B$H$$$&(BLEVEL$B$rMQ$$$?(B
@@ -297,8 +297,8 @@ unpooling$BF0:n$OC1=c$J2hAG3HD%A`:n$G$"$k$?$a!"(B
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
-        h\_cnt[0]==0 & h\_cnt[0]==1 & h\_cnt[0]==0 & h\_cnt[0]==1 \\
-        v\_cnt[0]==0 & v\_cnt[0]==0 & v\_cnt[0]==1 & v\_cnt[0]==1 \\
+        hcnt[0]==0 & hcnt[0]==1 & hcnt[0]==0 & hcnt[0]==1 \\
+        vcnt[0]==0 & vcnt[0]==0 & vcnt[0]==1 & vcnt[0]==1 \\
         \hline\hline
         $B:8>e=PNO(B & $B1&>e=PNO(B & $B:82<=PNO(B & $B1&2<=PNO(B\\\hline 
     \end{tabular}
@@ -310,11 +310,11 @@ unpooling$BF0:n$OC1=c$J2hAG3HD%A`:n$G$"$k$?$a!"(B
     \resizebox{\textwidth}{!}{
     \begin{tabular}{|c||c|c|c|c|}
         \hline
-        &h\_cnt[LEVEL]==0 & h\_cnt[LEVEL]==1 & h\_cnt[LEVEL]==0 & h\_cnt[LEVEL]==1 \\
-        &v\_cnt[LEVEL]==0 & v\_cnt[LEVEL]==0 & v\_cnt[LEVEL]==1 & v\_cnt[LEVEL]==1 \\
+        &hcnt[LEVEL]==0 & hcnt[LEVEL]==1 & hcnt[LEVEL]==0 & hcnt[LEVEL]==1 \\
+        &vcnt[LEVEL]==0 & vcnt[LEVEL]==0 & vcnt[LEVEL]==1 & vcnt[LEVEL]==1 \\
         \hline\hline
-        ((\&h\_cnt[LEVEL-1:0])\&\&     &\multirow{2}{*}{$B:8>e=PNO(B} & \multirow{2}{*}{$B1&>e=PNO(B} & \multirow{2}{*}{$B:82<=PNO(B}& \multirow{2}{*}{$B1&2<=PNO(B}\\
-        (\&v\_cnt[LEVEL-1:0]))==1 & & & &     \\\hline
+        ((\&hcnt[LEVEL-1:0])\&\&     &\multirow{2}{*}{$B:8>e=PNO(B} & \multirow{2}{*}{$B1&>e=PNO(B} & \multirow{2}{*}{$B:82<=PNO(B}& \multirow{2}{*}{$B1&2<=PNO(B}\\
+        (\&vcnt[LEVEL-1:0]))==1 & & & &     \\\hline
         otherwise &  \multicolumn{4}{c|}{$B=PNO$J$7(B}\\ \hline   
     \end{tabular}}
     \label{tab:unpooling_selectN}
@@ -474,7 +474,7 @@ pooling$BAXE,MQA0$NFCD'%^%C%W$rBP1~IU$1$k5!G=$r;}$D!#(B
 $B%l%$%F%s%7$r@53N$K5a$a$kI,MW$,$"$j!"HQ;($J@_7W$,5a$a$i$l$k!#(B
 %$B%U%#%k%?1i;;$r;O$a$H$9$k=hM}$N:90[$,B?$/!"(B
 %$B%l%$%F%s%7$N:9J,$r@53N$K5a$a$k$N$,:$Fq$G$"$k!#(B
-$B$=$3$G!"2hA|(B1$BKgJ,$N%a%b%j$r3NJ]$7!":BI8CM(B(h\_cnt,v\_cnt)$B$K4p$E$/%"%I%l%9$K(B
+$B$=$3$G!"2hA|(B1$BKgJ,$N%a%b%j$r3NJ]$7!":BI8CM(B(hcnt,vcnt)$B$K4p$E$/%"%I%l%9$K(B
 $B$h$C$FBP1~IU$1$k$3$H$H$7$?!#?^(B\ref{fig:buf_address}$B$K(Bbuf$B%b%8%e!<%k$N@_7W$r<($9!#(B
 \begin{figure}[hbt]
     \centering
@@ -487,7 +487,7 @@ out\_hcnt,\ out\_vcnt$B$K$O3F(BItgNet$B%b%8%e!<%kA0CJ$N(Bunpooling$B%b%8%e!
 $B$3$l$K$h$j!"(Bunpooling$B%b%8%e!<%k$+$i$N2hAGCM$HF1$8:BI8CM$r;}$D(B
 pooling$BA0$N2hAGCM$rBP1~IU$1$k$3$H$,$G$-$?!#(B
 $B$?$@$7!"$3$N<BAuJ}K!$O0lHLE*$J%P%C%U%!%j%s%0$K$h$k<BAuJ}K!$KHf$Y$F(B
-$B;q8;;HMQNL$,A}2C$9$k$3$H$,M=A[$5$l$k!#(B\ref{sec:kosatsu}$B@a$G(B
+$B;q8;;HMQNL$,A}2C$9$k$3$H$,M=A[$5$l$k!#(B\ref{sec:kosatsu_now}$B@a$G(B
 $B%P%C%U%!%j%s%0$KI,MW$J;q8;NL$H<B:]$N;q8;;HMQNL$rHf3S$7$?9M;!$r9T$&$3$H$H$9$k!#(B
 
 
